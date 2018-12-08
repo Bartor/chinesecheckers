@@ -18,7 +18,7 @@ public class BasicBoard implements BoardInterdace {
      */
     private int[][] positions;
     public void loadBoard(File file) {
-        //todo implement loadBoard from a text file
+        //TODO implement loadBoard from a text file
     }
 
     public int[][] getPositions() {
@@ -27,5 +27,11 @@ public class BasicBoard implements BoardInterdace {
 
     public void setPositions(int row, int col, int val) {
         this.positions[row][col] = val;
+    }
+
+    //potrzebna, zakładając, że tylko boardFields ma info o kstzałcie ( -1, bo chyba łatwiej od nulli (?))
+    public boolean fieldNotNull(int x, int y){
+        if(boardFields[x][y]==-1) return false;
+        else return true;
     }
 }
