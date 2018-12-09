@@ -1,5 +1,6 @@
 package frontend;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
