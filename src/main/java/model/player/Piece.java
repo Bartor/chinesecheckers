@@ -10,6 +10,10 @@ import java.util.Set;
 public class Piece {
     private PiecePosition position;
 
+    public Piece(PiecePosition startingPosition) {
+        this.position = startingPosition;
+    }
+
     private ArrayList<PiecePosition> possibleMoves;
 
     //mocno niepotymalne i dość brzydkie, ale powinno działać
