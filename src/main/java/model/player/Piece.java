@@ -9,6 +9,7 @@ import java.util.Set;
 
 public class Piece {
     private PiecePosition position;
+    private int id;
 
     public Piece(PiecePosition startingPosition) {
         this.position = startingPosition;
@@ -83,4 +84,7 @@ public class Piece {
 
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }
