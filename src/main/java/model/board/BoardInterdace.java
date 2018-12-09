@@ -8,4 +8,5 @@ public interface BoardInterdace {
     void loadBoard(File file) throws CorruptedFileException;
     int[][] getPositions();
     void setPositions(int row, int col, int val);
+    boolean fieldNotNull(int row, int col);
 }
