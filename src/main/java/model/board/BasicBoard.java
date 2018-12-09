@@ -14,6 +14,7 @@ public class BasicBoard implements BoardInterdace {
      * n n 1 1 0 0 0
      * n 1 1 0 2 2 n
      * 0 0 0 2 2 n n
+     * where n is -1
      */
     private int[][] boardFields;
     /***
@@ -31,6 +32,10 @@ public class BasicBoard implements BoardInterdace {
                 String[] line = s.nextLine().split(" ");
                 this.boardFields[lineCounter] = new int[line.length];
                 for (int i = 0; i < line.length; i++) {
+                    if (line[i].equals("n")) { //n is for null
+                        boardFields[lineCounter][i] = -1;
+                        continue;
+                    }
                     try {
                         int field = Integer.parseInt(line[i]);
                         if (field > 6) {
