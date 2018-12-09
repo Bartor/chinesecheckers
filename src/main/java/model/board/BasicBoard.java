@@ -2,28 +2,32 @@ package model.board;
 
 import model.exceptions.CorruptedFileException;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Scanner;
 
 public class BasicBoard implements BoardInterdace {
     /***
-     * e.g.
-     * n n 1 1 0 0 0
-     * n 1 1 0 2 2 n
-     * 0 0 0 2 2 n n
-     * where n is -1
+     * Model of a board.
+     * Uses -1 for fields not available for players.
+     * Uses 0 for fields without an owner.
+     * Uses 1 to 6 for fields of particular players.
      */
     private int[][] boardFields;
+
     /***
-     * e.g.
-     * 0 0 1 0 0 1 0
-     * 0 2 1 2 0 0 0
-     * 0 1 0 2 2 0 0
+     * Positions of pieces.
+     * Uses 0 for nothing.
+     * Uses 1 to 6 for position of particular player's pieces.
      */
     private int[][] positions;
+
+    /***
+     * Loads board from a file.
+     * @param file Should be a text file, using spaces and new lines to form an array-like structure.
+     *             Should consist of 0 - 6 and "n" (for -1), see {@link #boardFields}.
+     * @throws CorruptedFileException When files does not conform to given expectations, an exception is thrown.
+     */
     public void loadBoard(File file) throws CorruptedFileException {
         try {
             Scanner s = new Scanner(file);
@@ -56,17 +60,31 @@ public class BasicBoard implements BoardInterdace {
         }
     }
 
+    /***
+     * Getter for positions table.
+     * @return Table of positions, see {@link #positions}.
+     */
     public int[][] getPositions() {
         return this.positions;
     }
 
+    /***
+     * Sets something in board's {@link #positions} table.
+     * @param row Row of a change.
+     * @param col Column of a change.
+     * @param val Value to be set.
+     */
     public void setPositions(int row, int col, int val) {
         this.positions[row][col] = val;
     }
 
-    //potrzebna, zakładając, że tylko boardFields ma info o kstzałcie ( -1, bo chyba łatwiej od nulli (?))
-    public boolean fieldNotNull(int x, int y){
-        if(boardFields[x][y]==-1) return false;
-        else return true;
+    /***
+     * Checks if a particular field is not null.
+     * @param row Row to check.
+     * @param col Column to check.
+     * @return True, if isn't null. False if is.
+     */
+    public boolean fieldNotNull(int row, int col){
+        return boardFields[row][col] != -1;
     }
 }

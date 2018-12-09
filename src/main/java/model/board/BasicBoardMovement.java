@@ -1,5 +1,6 @@
 package model.board;
 
+import model.exceptions.MoveNotAllowedException;
 import model.player.PiecePosition;
 import model.player.Piece;
 
@@ -10,13 +11,24 @@ public class BasicBoardMovement implements BoardMovementInterface {
         this.board = board;
     }
 
-    public PiecePosition makeMove(Piece piece, PiecePosition newPosition) {
+    /***
+     * Moves a piece
+     * @param piece Piece to be moved
+     * @param newPosition A position piece is moved to
+     * @throws MoveNotAllowedException Is newPosition isn't a valid position to move, an exception is thrown.
+     */
+    public void makeMove(Piece piece, PiecePosition newPosition) throws MoveNotAllowedException {
+        throw new MoveNotAllowedException("");
         //todo implement
-        return null;
     }
 
-    public int[][] getMoves() {
+    /***
+     * Gets all possible moves for a given piece, including jumping (single jumps only)
+     * @param piece A piece we want to get moves for
+     * @return An array of possible positions
+     */
+    public PiecePosition[] getMoves(Piece piece) {
         //todo implement
-        return new int[0][];
+        return null;
     }
 }
