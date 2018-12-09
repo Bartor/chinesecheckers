@@ -9,4 +9,5 @@ public interface BoardInterdace {
     int[][] getPositions();
     void setPositions(int row, int col, int val);
     boolean fieldNotNull(int row, int col);
+    int[][] getBoardFields();
 }

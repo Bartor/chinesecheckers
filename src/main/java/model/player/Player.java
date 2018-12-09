@@ -1,5 +1,6 @@
 package model.player;
 
+import model.board.BoardInterdace;
 import model.exceptions.PlayerNotFullyInitializedException;
 
 public class Player {
@@ -24,8 +25,11 @@ public class Player {
      * Checks if player has won.
      * @return True if he did, false if not.
      */
-    public boolean won() {
-        //todo implement
-        return false;
+    public boolean won(BoardInterdace board) {
+        for(Piece piece : army.getPieces()){
+            if(board.getBoardFields()[piece.getPosition().getRow()][piece.getPosition().getCol()]!=(id+3)%6)
+                return false;
+        }
+        return true;
     }
 }

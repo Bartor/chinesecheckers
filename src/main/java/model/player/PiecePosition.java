@@ -15,4 +15,8 @@ public class PiecePosition {
     public int getRow() {
         return row;
     }
+
+    public boolean equals(PiecePosition position){
+        return this.row==position.getRow() && this.col==position.getCol();
+    }
 }

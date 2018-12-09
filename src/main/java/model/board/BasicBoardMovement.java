@@ -21,9 +21,25 @@ public class BasicBoardMovement implements BoardMovementInterface {
      * @throws MoveNotAllowedException Is newPosition isn't a valid position to move, an exception is thrown.
      */
     public void makeMove(Piece piece, PiecePosition newPosition) throws MoveNotAllowedException {
-        throw new MoveNotAllowedException("");
-        //todo implement
+        int row=piece.getPosition().getRow();
+        int col=piece.getPosition().getCol();
+        PiecePosition[] possibleMoves = getMoves(piece);
+        if(piece.getPosition().equals(newPosition))
+            return;
+        if(board.getBoardFields()[row][col]==(piece.getId()+3)%6 && board.getBoardFields()[newPosition.getRow()][newPosition.getCol()]!=(piece.getId()+3)%6)
+            throw new MoveNotAllowedException("Cannot come back from oponnent's zone");
+        for(PiecePosition position : possibleMoves){
+            if(newPosition.equals(position)){
+                board.setPositions(row, col, 0);
+                board.setPositions(newPosition.getRow(), newPosition.getCol(), piece.getId());
+                return;
+            }
+        }
+        throw new MoveNotAllowedException("Move not allowed");
     }
+    // TODO
+    // makeMove powinien być w dwu wersjach, zależy czy pierwszy ruch, czy po skoku
+    // zobaczę jak nam będzie wygodniej ( i czy make move jako cała seria ruchów, czy wywoływane kilka razy)
 
     /***
      * Gets all possible moves for a given piece, including jumping (single jumps only)

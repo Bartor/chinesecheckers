@@ -87,4 +87,8 @@ public class BasicBoard implements BoardInterdace {
     public boolean fieldNotNull(int row, int col){
         return boardFields[row][col] != -1;
     }
+
+    public int[][] getBoardFields(){
+        return this.boardFields;
+    }
 }
