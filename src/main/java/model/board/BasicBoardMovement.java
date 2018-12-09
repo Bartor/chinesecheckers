@@ -36,66 +36,84 @@ public class BasicBoardMovement implements BoardMovementInterface {
         int x = piece.getPosition().getCol();
         PiecePosition[] possibleMoves;
         Set<PiecePosition> tempSet = new HashSet<PiecePosition>();
-        if(board.fieldNotNull(x+1,y)  && board.getPositions()[x+1][y]==0)
-            tempSet.add(new PiecePosition(y, x+1));
-        if(board.fieldNotNull(x-1,y)  && board.getPositions()[x-1][y]==0)
-            tempSet.add(new PiecePosition(y, x-1));
-        if(board.fieldNotNull(x-1,y+1)  && board.getPositions()[x-1][y+1]==0)
+
+        if(board.fieldNotNull(x+1,y) && board.getPositions()[x+1][y]==0)
+            tempSet.add(new PiecePosition(y, x+2));
+        else if(board.fieldNotNull(x+1,y) && board.getPositions()[x+1][y]!=0 &&
+                board.fieldNotNull(x+2,y) && board.getPositions()[x+2][y]==0 ) {
+            tempSet.add(new PiecePosition(y, x+2));
+        }
+        if(board.fieldNotNull(x-2, y) && board.getPositions()[x-1][y]==0)
+            tempSet.add(new PiecePosition(y, x+2));
+        else if(board.fieldNotNull(x-1,y) && board.getPositions()[x-1][y] !=0 &&
+                board.fieldNotNull(x-2,y) && board.getPositions()[x-2][y] ==0 ) {
+            tempSet.add(new PiecePosition(y, x - 2));
+        }
+        if(board.fieldNotNull(x-1,y) && board.getPositions()[x+1][y]==0)
+            tempSet.add(new PiecePosition(y, x+2));
+        else if( board.fieldNotNull(x-1,y) && board.getPositions()[x+1][y] !=0 &&
+                board.fieldNotNull(x+1,y+2) && board.getPositions()[x+1][y+2] ==0 ) {
+            tempSet.add(new PiecePosition(y+2, x+1));
+        }
+        if(board.fieldNotNull(x-1, y+1) && board.getPositions()[x-1][y+1]==0)
             tempSet.add(new PiecePosition(y+1, x-1));
-        if(board.fieldNotNull(x,y+1)  && board.getPositions()[x][y+1]==0)
-            tempSet.add(new PiecePosition(y+1, x));
-        if(board.fieldNotNull(x-1,y-1)  && board.getPositions()[x-1][y-1]==0)
+        else if(board.fieldNotNull(x-1,y+1) && board.getPositions()[x-1][y+1]!=0 &&
+                board.fieldNotNull(x-1,y+2) && board.getPositions()[x-1][y+2] ==0 ) {
+            tempSet.add(new PiecePosition(y+2, x-1));
+        }
+        if(board.fieldNotNull(x-1, y-1) && board.getPositions()[x-1][y-1]==0)
             tempSet.add(new PiecePosition(y-1, x-1));
-        if(board.fieldNotNull(x,y-1)  && board.getPositions()[x][y-1]==0)
-            tempSet.add(new PiecePosition(y-1, x));
-        getMovesByOverJumping(tempSet, x, y);
+        else if(board.fieldNotNull(x-1,y-1) && board.getPositions()[x-1][y-1]!=0 &&
+                board.fieldNotNull(x-1,y-2) && board.getPositions()[x-1][y-2] ==0 ) {
+            tempSet.add(new PiecePosition(y-2, x-1));
+        }
+        if(board.fieldNotNull(x, y-1) && board.getPositions()[x][y-1]==0)
+            tempSet.add(new PiecePosition(y-1,x));
+        else if( board.fieldNotNull(x,y-1) && board.fieldNotNull(x+1,y-2) &&
+                board.getPositions()[x][y-1]!=0 && board.getPositions()[x+1][y-2] ==0 ) {
+            tempSet.add(new PiecePosition(y-2, x+1));
+        }
         possibleMoves=tempSet.toArray(new PiecePosition[0]);
         return possibleMoves;
     }
 
-    /**
-     * Subfunction for getMoves(), dealing with jumping
-     * @param tempSet Temporary set of PiecePositions
-     * @param x Position's column
-     * @param y Position's row
+    /***
+     * Look for possible moves after jump
+     * @param piece A piece we want to get jumped
+     * @return An array of possible positions after jump
      */
-    private void getMovesByOverJumping(Set<PiecePosition> tempSet, int x, int y) {
+    public PiecePosition[] getMovesAfterJump(Piece piece) {
+
+        int x=piece.getPosition().getCol();
+        int y=piece.getPosition().getRow();
+        Set<PiecePosition> tempSet = new HashSet<PiecePosition>();
+        PiecePosition[] possibleMoves;
 
         if(board.fieldNotNull(x+1,y) && board.getPositions()[x+1][y]!=0 &&
                 board.fieldNotNull(x+2,y) && board.getPositions()[x+2][y]==0 ) {
-            if(!tempSet.add(new PiecePosition(y, x+2)))
-                return;
-            getMovesByOverJumping(tempSet,x+2, y);
+            tempSet.add(new PiecePosition(y, x+2));
         }
         if(board.fieldNotNull(x-1,y) && board.getPositions()[x-1][y] !=0 &&
                 board.fieldNotNull(x-2,y) && board.getPositions()[x-2][y] ==0 ) {
-            if(!tempSet.add(new PiecePosition(y, x - 2)))
-                return;
-            getMovesByOverJumping(tempSet,x-2, y);
+            tempSet.add(new PiecePosition(y, x - 2));
         }
-        if( board.fieldNotNull(x-1,y) && board.getPositions()[x-1][y] !=0 &&
-                board.fieldNotNull(x-2,y) && board.getPositions()[x-2][y] ==0 ) {
-            if(!tempSet.add(new PiecePosition(y, x-2)))
-                return;
-            getMovesByOverJumping(tempSet,x-2, y);
+        if( board.fieldNotNull(x-1,y) && board.getPositions()[x+1][y] !=0 &&
+                board.fieldNotNull(x+1,y+2) && board.getPositions()[x+1][y+2] ==0 ) {
+            tempSet.add(new PiecePosition(y+2, x+1));
         }
         if(board.fieldNotNull(x-1,y+1) && board.getPositions()[x-1][y+1]!=0 &&
                 board.fieldNotNull(x-1,y+2) && board.getPositions()[x-1][y+2] ==0 ) {
-            if(!tempSet.add(new PiecePosition(y+2, x-1)))
-                return;
-            getMovesByOverJumping(tempSet, x-1, y+2);
+            tempSet.add(new PiecePosition(y+2, x-1));
         }
         if(board.fieldNotNull(x-1,y-1) && board.getPositions()[x-1][y-1]!=0 &&
                 board.fieldNotNull(x-1,y-2) && board.getPositions()[x-1][y-2] ==0 ) {
-            if(!tempSet.add(new PiecePosition(y-2, x-1)))
-                return;
-            getMovesByOverJumping(tempSet, x-1, y-2);
+            tempSet.add(new PiecePosition(y-2, x-1));
         }
         if( board.fieldNotNull(x,y-1) && board.fieldNotNull(x+1,y-2) &&
                 board.getPositions()[x][y-1]!=0 && board.getPositions()[x+1][y-2] ==0 ) {
-            if(!tempSet.add(new PiecePosition(y-2, x+1)))
-                return;
-            getMovesByOverJumping(tempSet, x+1, y-2);
+            tempSet.add(new PiecePosition(y-2, x+1));
         }
+        possibleMoves=tempSet.toArray(new PiecePosition[0]);
+        return possibleMoves;
     }
 }
