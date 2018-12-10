@@ -20,7 +20,5 @@ public class PiecePosition implements Comparable<PiecePosition> {
         return row;
     }
 
-    public boolean equals(PiecePosition position){
-        return this.row==position.getRow() && this.col==position.getCol();
-    }
 }
+
