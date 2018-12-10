@@ -14,6 +14,10 @@ public class Army {
         }
     }
 
+    public List<Piece> getPieces() {
+        return pieces;
+    }
+
     public void setId(int id) {
         this.id = id;
         for (Piece piece : this.pieces) {
