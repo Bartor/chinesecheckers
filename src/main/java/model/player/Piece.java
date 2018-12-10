@@ -19,6 +19,10 @@ public class Piece {
         return position;
     }
 
+    public void setPosition(PiecePosition position) {
+        this.position = position;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
