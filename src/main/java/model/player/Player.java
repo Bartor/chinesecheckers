@@ -20,4 +20,8 @@ public class Player {
             throw new PlayerNotFullyInitializedException("Canno set id without an army");
         }
     }
+
+    public Army getArmy() {
+        return army;
+    }
 }
