@@ -14,7 +14,12 @@ public class BasicBoardMovement implements BoardMovementInterface {
         this.board = board;
     }
 
-    public boolean onWinZone(Piece piece) {
+    /***
+     * Utility function, checks if a given piece is on its winning zone.
+     * @param piece A piece to be checked.
+     * @return True if the piece is on the winning zone, false otherwise.
+     */
+    private boolean onWinZone(Piece piece) {
         int[][] layout = this.board.getBoardFields();
         int winningId = (piece.getId() + 2) % 6 + 1;
         if (layout[piece.getPosition().getRow()][piece.getPosition().getCol()] == winningId) {
