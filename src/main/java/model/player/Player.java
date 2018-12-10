@@ -20,16 +20,4 @@ public class Player {
             throw new PlayerNotFullyInitializedException("Canno set id without an army");
         }
     }
-
-    /***
-     * Checks if player has won.
-     * @return True if he did, false if not.
-     */
-    public boolean won(BoardInterdace board) {
-        for(Piece piece : army.getPieces()){
-            if(board.getBoardFields()[piece.getPosition().getRow()][piece.getPosition().getCol()]!=(id+3)%6)
-                return false;
-        }
-        return true;
-    }
 }
