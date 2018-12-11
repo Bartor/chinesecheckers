@@ -18,7 +18,7 @@ public class Army {
         return pieces;
     }
 
-    public void setId(int id) {
+    void setId(int id) {
         this.id = id;
         for (Piece piece : this.pieces) {
             piece.setId(id);

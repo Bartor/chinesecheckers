@@ -21,6 +21,18 @@ public class Player {
         }
     }
 
+    public void setArmy(Army army) {
+        this.army = army;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public Army getArmy() {
         return army;
     }
