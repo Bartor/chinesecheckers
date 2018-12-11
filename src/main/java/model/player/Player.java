@@ -17,7 +17,7 @@ public class Player {
         if (this.army != null) {
             this.army.setId(id);
         } else {
-            throw new PlayerNotFullyInitializedException("Canno set id without an army");
+            throw new PlayerNotFullyInitializedException("Cannot set id without an army");
         }
     }
 
