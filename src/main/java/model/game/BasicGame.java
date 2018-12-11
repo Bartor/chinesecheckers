@@ -5,8 +5,9 @@ import model.player.Piece;
 import model.player.Player;
 
 public class BasicGame extends AbstractGame {
-    public BasicGame(BoardMovementInterface boardMovementInterface) {
+    public BasicGame(BoardMovementInterface boardMovementInterface, int playersLimit) {
         this.boardMovementInterface = boardMovementInterface;
+        this.limit = playersLimit;
     }
 
     @Override
