@@ -17,31 +17,24 @@ public class BasicBoardTest {
      * Tests if loadBoard() imports board file array correctly
      */
     @Test
-    public void testFileImportingCorrectness(){
-        try {
+    public void testFileImportingCorrectness() throws CorruptedFileException {
             BasicBoard testBoard=createTestBoard();
             Assert.assertArrayEquals(new int[]{-1,-1,-1,1,1,-1,-1,-1}, testBoard.getBoardFields()[0]);
             Assert.assertArrayEquals(new int[]{-1,-1,1,1,1,1,-1,-1}, testBoard.getBoardFields()[1]);
             Assert.assertArrayEquals(new int[]{-1,-1,-1,4,4, -1,-1,-1}, testBoard.getBoardFields()[7]);
-        } catch (CorruptedFileException e) {
-            e.printStackTrace();
-        }
     }
 
     /***
      * Tests if setting position works correctly
      */
     @Test
-    public void testSetPositions() {
-        try {
+    public void testSetPositions() throws CorruptedFileException {
+
             BasicBoard testBoard = createTestBoard();
             testBoard.setPositions(2,2,1);
             Assert.assertEquals(1, testBoard.getPositions()[2][2]);
             testBoard.setPositions(2,2,5);
             Assert.assertEquals(5, testBoard.getPositions()[2][2]);
-        } catch (CorruptedFileException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -49,14 +42,12 @@ public class BasicBoardTest {
      * Tests if null fields are found correctly
      */
     @Test
-    public void fieldNotNull() {
-        try {
+    public void fieldNotNull() throws CorruptedFileException {
+
             BasicBoard testBoard = createTestBoard();
             Assert.assertTrue(testBoard.fieldNotNull(0,4));
             Assert.assertTrue(!testBoard.fieldNotNull(0,0));
-        } catch (CorruptedFileException e) {
-            e.printStackTrace();
-        }
+
     }
 
     /***

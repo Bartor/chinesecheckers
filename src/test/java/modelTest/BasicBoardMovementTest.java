@@ -17,8 +17,7 @@ public class BasicBoardMovementTest {
      * Tests if onWinZone() works correctly
      */
     @Test
-    public void testOnWinZone(){
-        try {
+    public void testOnWinZone() throws CorruptedFileException {
             BasicBoardMovement testBoardMovement = createBasicBMovementUnderTest();
             Piece piece1 = new Piece(new PiecePosition(0,3));
             piece1.setId(4);
@@ -30,10 +29,6 @@ public class BasicBoardMovementTest {
             Assert.assertTrue(!testBoardMovement.onWinZone(piece2));
             Assert.assertTrue(!testBoardMovement.onWinZone(piece3));
 
-
-        } catch (CorruptedFileException e) {
-            e.printStackTrace();
-        }
     }
 
     /***
