@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class BasicBoard implements BoardInterdace {
+
     /***
      * Model of a board.
      * Uses -1 for fields not available for players.
@@ -21,6 +22,11 @@ public class BasicBoard implements BoardInterdace {
      * Uses 1 to 6 for position of particular player's pieces.
      */
     private int[][] positions;
+
+    public BasicBoard(int rows, int columns){
+        this.boardFields=new int[rows][columns];
+        this.positions=new int[rows][columns];
+    }
 
     /***
      * Loads board from a file.
@@ -85,7 +91,9 @@ public class BasicBoard implements BoardInterdace {
      * @return True, if isn't null. False if is.
      */
     public boolean fieldNotNull(int row, int col){
-        return boardFields[row][col] != -1;
+        int h=boardFields.length;
+        int j=boardFields[0].length;
+        return (j>col && h>row && row>=0 && col>=0 && boardFields[row][col] != -1);
     }
 
     public int[][] getBoardFields(){

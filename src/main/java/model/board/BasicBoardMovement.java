@@ -75,46 +75,46 @@ public class BasicBoardMovement implements BoardMovementInterface {
      */
     public PiecePosition[] getMoves(Piece piece) {
         // x - column in order, y - row
-        int y = piece.getPosition().getRow();
-        int x = piece.getPosition().getCol();
+        int row = piece.getPosition().getRow();
+        int col = piece.getPosition().getCol();
         PiecePosition[] possibleMoves;
         Set<PiecePosition> tempSet = new HashSet<PiecePosition>();
 
-        if(board.fieldNotNull(x+1,y) && board.getPositions()[x+1][y]==0)
-            tempSet.add(new PiecePosition(y, x+2));
-        else if(board.fieldNotNull(x+1,y) && board.getPositions()[x+1][y]!=0 &&
-                board.fieldNotNull(x+2,y) && board.getPositions()[x+2][y]==0 ) {
-            tempSet.add(new PiecePosition(y, x+2));
+        if(board.fieldNotNull(row,col+1) && board.getPositions()[row][col+1]==0)
+            tempSet.add(new PiecePosition(row, col+1));
+        else if(board.fieldNotNull(row,col+1) && board.getPositions()[row][col+1]!=0 &&
+                board.fieldNotNull(row,col+2) && board.getPositions()[row][col+2]==0 ) {
+            tempSet.add(new PiecePosition(row, col+2));
         }
-        if(board.fieldNotNull(x-2, y) && board.getPositions()[x-1][y]==0)
-            tempSet.add(new PiecePosition(y, x+2));
-        else if(board.fieldNotNull(x-1,y) && board.getPositions()[x-1][y] !=0 &&
-                board.fieldNotNull(x-2,y) && board.getPositions()[x-2][y] ==0 ) {
-            tempSet.add(new PiecePosition(y, x - 2));
+        if(board.fieldNotNull(row-1, col) && board.getPositions()[row-1][col]==0)
+            tempSet.add(new PiecePosition(row-1, col));
+        else if(board.fieldNotNull(row-1,col) && board.getPositions()[row-1][col] !=0 &&
+                board.fieldNotNull(row-2,col+1) && board.getPositions()[row-2][col+1] ==0 ) {
+            tempSet.add(new PiecePosition(row-2, col+1));
         }
-        if(board.fieldNotNull(x-1,y) && board.getPositions()[x+1][y]==0)
-            tempSet.add(new PiecePosition(y, x+2));
-        else if( board.fieldNotNull(x-1,y) && board.getPositions()[x+1][y] !=0 &&
-                board.fieldNotNull(x+1,y+2) && board.getPositions()[x+1][y+2] ==0 ) {
-            tempSet.add(new PiecePosition(y+2, x+1));
+        if(board.fieldNotNull(row-1,col-1) && board.getPositions()[row-1][col-1]==0)
+            tempSet.add(new PiecePosition(row-1, col-1));
+        else if( board.fieldNotNull(row-1,col-1) && board.getPositions()[row-1][col-1] !=0 &&
+                board.fieldNotNull(row-2,col-1) && board.getPositions()[row-2][col-1] ==0 ) {
+            tempSet.add(new PiecePosition(row-2, col-1));
         }
-        if(board.fieldNotNull(x-1, y+1) && board.getPositions()[x-1][y+1]==0)
-            tempSet.add(new PiecePosition(y+1, x-1));
-        else if(board.fieldNotNull(x-1,y+1) && board.getPositions()[x-1][y+1]!=0 &&
-                board.fieldNotNull(x-1,y+2) && board.getPositions()[x-1][y+2] ==0 ) {
-            tempSet.add(new PiecePosition(y+2, x-1));
+        if(board.fieldNotNull(row, col-1) && board.getPositions()[row][col-1]==0)
+            tempSet.add(new PiecePosition(row, col-1));
+        else if(board.fieldNotNull(row,col-1) && board.getPositions()[row][col-1]!=0 &&
+                board.fieldNotNull(row,col-2) && board.getPositions()[row][col-2] ==0 ) {
+            tempSet.add(new PiecePosition(row, col-2));
         }
-        if(board.fieldNotNull(x-1, y-1) && board.getPositions()[x-1][y-1]==0)
-            tempSet.add(new PiecePosition(y-1, x-1));
-        else if(board.fieldNotNull(x-1,y-1) && board.getPositions()[x-1][y-1]!=0 &&
-                board.fieldNotNull(x-1,y-2) && board.getPositions()[x-1][y-2] ==0 ) {
-            tempSet.add(new PiecePosition(y-2, x-1));
+        if(board.fieldNotNull(row+1, col-1) && board.getPositions()[row+1][col-1]==0)
+            tempSet.add(new PiecePosition(row+1, col-1));
+        else if(board.fieldNotNull(row+1,col-1) && board.getPositions()[row+1][col-1]!=0 &&
+                board.fieldNotNull(row+2,col-1) && board.getPositions()[row+2][col-1] ==0 ) {
+            tempSet.add(new PiecePosition(row+2, col-1));
         }
-        if(board.fieldNotNull(x, y-1) && board.getPositions()[x][y-1]==0)
-            tempSet.add(new PiecePosition(y-1,x));
-        else if( board.fieldNotNull(x,y-1) && board.fieldNotNull(x+1,y-2) &&
-                board.getPositions()[x][y-1]!=0 && board.getPositions()[x+1][y-2] ==0 ) {
-            tempSet.add(new PiecePosition(y-2, x+1));
+        if(board.fieldNotNull(row+1, col) && board.getPositions()[row+1][col]==0)
+            tempSet.add(new PiecePosition(row+1,col));
+        else if( board.fieldNotNull(row+1,col) && board.fieldNotNull(row+2,col+1) &&
+                board.getPositions()[row+1][col]!=0 && board.getPositions()[row+2][col+1] ==0 ) {
+            tempSet.add(new PiecePosition(row+2, col+1));
         }
         possibleMoves=tempSet.toArray(new PiecePosition[0]);
         return possibleMoves;
@@ -126,34 +126,34 @@ public class BasicBoardMovement implements BoardMovementInterface {
      */
     public PiecePosition[] getMovesAfterJump(Piece piece) {
 
-        int x=piece.getPosition().getCol();
-        int y=piece.getPosition().getRow();
+        int col=piece.getPosition().getCol();
+        int row=piece.getPosition().getRow();
         Set<PiecePosition> tempSet = new HashSet<PiecePosition>();
         PiecePosition[] possibleMoves;
 
-        if(board.fieldNotNull(x+1,y) && board.getPositions()[x+1][y]!=0 &&
-                board.fieldNotNull(x+2,y) && board.getPositions()[x+2][y]==0 ) {
-            tempSet.add(new PiecePosition(y, x+2));
+        if(board.fieldNotNull(row, col+1) && board.getPositions()[row][col+1]!=0 &&
+                board.fieldNotNull(row,col+2) && board.getPositions()[row][col+2]==0 ) {
+            tempSet.add(new PiecePosition(row, col+2));
         }
-        if(board.fieldNotNull(x-1,y) && board.getPositions()[x-1][y] !=0 &&
-                board.fieldNotNull(x-2,y) && board.getPositions()[x-2][y] ==0 ) {
-            tempSet.add(new PiecePosition(y, x - 2));
+        if(board.fieldNotNull(row-1, col) && board.getPositions()[row-1][col] !=0 &&
+                board.fieldNotNull(row-2,col+1) && board.getPositions()[row-2][col+1] ==0 ) {
+            tempSet.add(new PiecePosition(row-2, col+1));
         }
-        if( board.fieldNotNull(x-1,y) && board.getPositions()[x+1][y] !=0 &&
-                board.fieldNotNull(x+1,y+2) && board.getPositions()[x+1][y+2] ==0 ) {
-            tempSet.add(new PiecePosition(y+2, x+1));
+        if( board.fieldNotNull(row-1, col-1) && board.getPositions()[row-1][col-1] !=0 &&
+                board.fieldNotNull(row-2,col-1) && board.getPositions()[row-2][col-1] ==0 ) {
+            tempSet.add(new PiecePosition(row-2, col-1));
         }
-        if(board.fieldNotNull(x-1,y+1) && board.getPositions()[x-1][y+1]!=0 &&
-                board.fieldNotNull(x-1,y+2) && board.getPositions()[x-1][y+2] ==0 ) {
-            tempSet.add(new PiecePosition(y+2, x-1));
+        if(board.fieldNotNull(row,col-1) && board.getPositions()[row][col-1]!=0 &&
+                board.fieldNotNull(row,col-2) && board.getPositions()[row][col-2] ==0 ) {
+            tempSet.add(new PiecePosition(row, col-2));
         }
-        if(board.fieldNotNull(x-1,y-1) && board.getPositions()[x-1][y-1]!=0 &&
-                board.fieldNotNull(x-1,y-2) && board.getPositions()[x-1][y-2] ==0 ) {
-            tempSet.add(new PiecePosition(y-2, x-1));
+        if(board.fieldNotNull(row+1,col-1) && board.getPositions()[row+1][col-1]!=0 &&
+                board.fieldNotNull(row+2,col-1) && board.getPositions()[row+2][col-1] ==0 ) {
+            tempSet.add(new PiecePosition(row+2, col-1));
         }
-        if( board.fieldNotNull(x,y-1) && board.fieldNotNull(x+1,y-2) &&
-                board.getPositions()[x][y-1]!=0 && board.getPositions()[x+1][y-2] ==0 ) {
-            tempSet.add(new PiecePosition(y-2, x+1));
+        if( board.fieldNotNull(row+1,col) && board.fieldNotNull(row+2,col+1) &&
+                board.getPositions()[row+1][col]!=0 && board.getPositions()[row+2][col+1] ==0 ) {
+            tempSet.add(new PiecePosition(row+2, col+1));
         }
         possibleMoves=tempSet.toArray(new PiecePosition[0]);
         return possibleMoves;
