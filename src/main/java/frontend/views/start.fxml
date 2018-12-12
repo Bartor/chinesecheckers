@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<?import java.net.URL?>
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <VBox prefHeight="400.0" prefWidth="200.0" fx:id="">
-                <Label>
-                    Chinese Checkers
-                </Label>
-               <JFXTextField />
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-            </VBox>
-         </children>
-      </HBox>
+      <VBox fx:id="" alignment="CENTER" prefHeight="400.0" prefWidth="150.0">
+          <Label alignment="CENTER" text="Chinese Checkers" textAlignment="CENTER">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Label>
+         <VBox alignment="CENTER" prefHeight="65.0" prefWidth="397.0">
+            <children>
+               <JFXTextField maxWidth="300.0" prefHeight="25.0" promptText="Nick" />
+               <Label alignment="CENTER" text="Aktualnie używana mapa: brak" textAlignment="CENTER" />
+               <HBox alignment="CENTER" prefHeight="40.0" prefWidth="436.0">
+                  <children>
+                     <JFXButton mnemonicParsing="false" text="Wgraj mapę" textAlignment="CENTER" />
+                     <JFXButton disable="true" mnemonicParsing="false" text="Uruchom" />
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
    </children>
-    <stylesheets>
-        <URL value="@../styles/start.css"/>
-    </stylesheets>
 </StackPane>

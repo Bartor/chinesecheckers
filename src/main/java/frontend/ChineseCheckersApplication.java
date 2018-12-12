@@ -14,7 +14,7 @@ public class ChineseCheckersApplication extends Application {
     public void start(Stage stage) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("views/start.fxml"));
-            stage.setTitle("XD");
+            stage.setTitle("Chinese Checkers");
             stage.setScene(new Scene(root, 800, 600));
             stage.show();
         } catch (IOException e) { }
