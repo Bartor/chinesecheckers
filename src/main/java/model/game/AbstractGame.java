@@ -22,7 +22,7 @@ public abstract class AbstractGame {
         if (players == null) {
             players = new ArrayList<Player>();
             try {
-                player.setId(0);
+                player.setId(1);
             } catch (PlayerNotFullyInitializedException e) {
                 throw new CannotAddPlayerException("Given player has not been initialized");
             }
