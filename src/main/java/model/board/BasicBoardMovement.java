@@ -159,4 +159,7 @@ public class BasicBoardMovement implements BoardMovementInterface {
         return possibleMoves;
     }
 
+    public BoardInterdace getBoard() {
+        return this.board;
+    }
 }

@@ -23,11 +23,6 @@ public class BasicBoard implements BoardInterdace {
      */
     private int[][] positions;
 
-    public BasicBoard(int rows, int columns){
-        this.boardFields=new int[rows][columns];
-        this.positions=new int[rows][columns];
-    }
-
     /***
      * Loads board from a file.
      * @param file Should be a text file, using spaces and new lines to form an array-like structure.
@@ -36,14 +31,25 @@ public class BasicBoard implements BoardInterdace {
      */
     public void loadBoard(File file) throws CorruptedFileException {
         try {
-            Scanner s = new Scanner(file);
+            Scanner ss = new Scanner(file);
             int lineCounter = 0;
+            while (ss.hasNextLine()) {
+                lineCounter++;
+                ss.nextLine();
+            }
+            ss.close();
+            this.boardFields = new int[lineCounter][];
+            this.positions = new int[lineCounter][];
+            lineCounter = 0;
+            Scanner s = new Scanner(file);
             while (s.hasNextLine()) {
                 String[] line = s.nextLine().split(" ");
                 this.boardFields[lineCounter] = new int[line.length];
+                this.positions[lineCounter] = new int[line.length];
                 for (int i = 0; i < line.length; i++) {
                     if (line[i].equals("n")) { //n is for null
                         boardFields[lineCounter][i] = -1;
+                        positions[lineCounter][i] = 0;
                         continue;
                     }
                     try {
@@ -55,6 +61,7 @@ public class BasicBoard implements BoardInterdace {
                             throw new CorruptedFileException("Values should start at 0");
                         }
                         this.boardFields[lineCounter][i] = field;
+                        this.positions[lineCounter][i] = field;
                     } catch (NumberFormatException e) {
                         throw new CorruptedFileException("Values should be an integer");
                     }

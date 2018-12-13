@@ -56,7 +56,7 @@ public class BasicBoardTest {
      * @throws CorruptedFileException
      */
     protected BasicBoard createTestBoard() throws CorruptedFileException {
-        BasicBoard testBoard = new BasicBoard(8,8);
+        BasicBoard testBoard = new BasicBoard();
         testBoard.loadBoard(new File("testBoard.txt"));
         return testBoard;
     }

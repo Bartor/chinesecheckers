@@ -5,9 +5,24 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
+import model.board.BasicBoard;
+import model.board.BasicBoardMovement;
+import model.board.BoardInterdace;
+import model.board.BoardMovementInterface;
+import model.exceptions.CannotAddPlayerException;
+import model.exceptions.CorruptedFileException;
+import model.exceptions.PlayerNotFullyInitializedException;
+import model.game.BasicGame;
+import model.player.Player;
+
+import java.io.File;
 
 public class Start extends AbstractController {
+    private File file = null;
+
     @FXML
     JFXButton upload;
 
@@ -18,11 +33,26 @@ public class Start extends AbstractController {
     JFXTextField nick;
 
     @FXML
+    JFXTextField adress;
+
+    @FXML
+    Label map;
+
+    @FXML
     public void initialize() {
         //todo add listeners
         nick.setOnKeyReleased(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
-                if (nick.getText().trim().equals("")) {
+                if (nick.getText().trim().equals("") || adress.getText().trim().equals("") || file == null) {
+                    start.setDisable(true);
+                } else {
+                    start.setDisable(false);
+                }
+            }
+        });
+        adress.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent event) {
+                if (nick.getText().trim().equals("") || adress.getText().trim().equals("") || file == null) {
                     start.setDisable(true);
                 } else {
                     start.setDisable(false);
@@ -31,7 +61,38 @@ public class Start extends AbstractController {
         });
         start.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
+                Player player = new Player(nick.getText().trim());
+                try {
+                    game.addPlayer(player);
+                } catch (CannotAddPlayerException e) {
+                    showAlert(e.getMessage());
+                    return;
+                }
+                try {
+                    sceneController.switchScene("game");
+                } catch (Exception e) {
+                    showAlert(e.getMessage());
+                }
+            }
+        });
+        upload.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                FileChooser chooser = new FileChooser();
+                File openedFile = chooser.showOpenDialog(sceneController.getStage());
+                if (openedFile != null) {
+                    file = openedFile;
+                    BoardInterdace board = new BasicBoard();
+                    try {
+                        board.loadBoard(file);
+                    } catch (CorruptedFileException e) {
+                        file = null;
+                        showAlert(e.getMessage());
+                        return;
+                    }
+                    map.setText("Aktualnie używana mapa: " + file.getName());
+                    BoardMovementInterface movementInterface = new BasicBoardMovement(board);
+                    game = new BasicGame(movementInterface, 6);
+                }
             }
         });
     }

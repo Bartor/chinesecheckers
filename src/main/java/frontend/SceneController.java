@@ -26,4 +26,12 @@ public class SceneController {
             throw new Exception("Scene does not exist");
         }
     }
+    public Scene getScene(String name) throws Exception {
+        if (this.scenes.containsKey(name)) return this.scenes.get(name);
+        else throw new Exception("There is no such scene");
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
 }

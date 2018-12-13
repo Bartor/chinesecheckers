@@ -21,8 +21,9 @@
          </Label>
          <VBox alignment="CENTER" prefHeight="65.0" prefWidth="397.0">
             <children>
-               <JFXTextField fx:id="nick" maxWidth="300.0" prefHeight="25.0" promptText="Nick" />
-               <Label alignment="CENTER" text="Aktualnie używana mapa: brak" textAlignment="CENTER" />
+               <JFXTextField fx:id="nick" maxWidth="300.0" prefHeight="25.0" promptText="Pseudonim" />
+               <JFXTextField fx:id="adress" maxWidth="300.0" prefHeight="25.0" promptText="Adres gry" />
+               <Label fx:id="map" alignment="CENTER" text="Aktualnie używana mapa: brak" textAlignment="CENTER" />
                <HBox alignment="CENTER" prefHeight="40.0" prefWidth="436.0">
                   <children>
                      <JFXButton fx:id="upload" mnemonicParsing="false" text="Wgraj mapę" textAlignment="CENTER" />
