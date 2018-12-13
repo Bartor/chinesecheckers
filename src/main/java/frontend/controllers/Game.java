@@ -5,12 +5,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import model.board.BoardInterdace;
 
 public class Game extends AbstractController {
     @FXML
     VBox boardBox;
 
+    @FXML
     public void initialize() {
         int[][] boardFields = game.getBoardMovementInterface().getBoard().getBoardFields();
         for (int i = 0; i < boardFields.length; i++) {

@@ -33,7 +33,9 @@ public class ChineseCheckersApplication extends Application {
             stage.setTitle("Chinese Checkers");
             stage.setScene(sceneController.getScene("start"));
             stage.show();
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public static void main(String[] args) {
