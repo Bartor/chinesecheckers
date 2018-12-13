@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -8,29 +9,29 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-           prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="frontend.controllers.Game">
-    <children>
-    <HBox>
-        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="150.0">
-            <Label text="Chinese Checkers">
-                <font>
-                   <Font size="14.0" />
-                </font></Label>
-            <Separator prefWidth="200.0">
-                 <padding>
-                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                </padding>
-            </Separator>
-                <Label text="aktualna tura" />
-                <Label text="brak">
-                <font>
-                   <Font size="18.0" />
-                </font></Label>
-        </VBox>
-        <VBox fx:id="boardBox" alignment="CENTER">
-
-        </VBox>
-    </HBox>
-    </children>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.Game">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="400.0" prefWidth="150.0">
+               <children>
+                  <Label text="Chinese Checkers" />
+                  <Separator prefWidth="200.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Separator>
+                  <Label text="aktualna tura" />
+                  <Label fx:id="player" text="brak">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="map" mnemonicParsing="false" text="mapa" />
+               </children>
+            </VBox>
+            <VBox fx:id="boardBox" alignment="CENTER" prefHeight="400.0" prefWidth="450.0" />
+         </children>
+      </HBox>
+   </children>
 </StackPane>

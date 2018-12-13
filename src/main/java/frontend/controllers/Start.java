@@ -63,12 +63,6 @@ public class Start extends AbstractController {
             public void handle(ActionEvent event) {
                 Player player = new Player(nick.getText().trim());
                 try {
-                    game.addPlayer(player);
-                } catch (CannotAddPlayerException e) {
-                    showAlert(e.getMessage());
-                    return;
-                }
-                try {
                     sceneController.switchScene("game");
                 } catch (Exception e) {
                     showAlert(e.getMessage());

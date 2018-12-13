@@ -11,30 +11,32 @@
 
 <StackPane
         fx:controller="frontend.controllers.Start"
-        maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-   <children>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="150.0">
-          <Label alignment="CENTER" text="Chinese Checkers" textAlignment="CENTER">
-            <font>
-               <Font size="24.0" />
-            </font>
-         </Label>
-         <VBox alignment="CENTER" prefHeight="65.0" prefWidth="397.0">
-            <children>
-               <JFXTextField fx:id="nick" maxWidth="300.0" prefHeight="25.0" promptText="Pseudonim" />
-               <JFXTextField fx:id="adress" maxWidth="300.0" prefHeight="25.0" promptText="Adres gry" />
-               <Label fx:id="map" alignment="CENTER" text="Aktualnie używana mapa: brak" textAlignment="CENTER" />
-               <HBox alignment="CENTER" prefHeight="40.0" prefWidth="436.0">
-                  <children>
-                     <JFXButton fx:id="upload" mnemonicParsing="false" text="Wgraj mapę" textAlignment="CENTER" />
-                     <JFXButton fx:id="start" disable="true" mnemonicParsing="false" text="Uruchom" />
-                  </children>
-               </HBox>
-            </children>
-         </VBox>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
-      </VBox>
-   </children>
+        maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+        prefHeight="400.0" prefWidth="600.0"
+        xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <children>
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="150.0">
+            <Label alignment="CENTER" text="Chinese Checkers" textAlignment="CENTER">
+                <font>
+                    <Font size="24.0"/>
+                </font>
+            </Label>
+            <VBox alignment="CENTER" prefHeight="65.0" prefWidth="397.0">
+                <children>
+                    <JFXTextField fx:id="nick" maxWidth="300.0" prefHeight="25.0" promptText="Pseudonim"/>
+                    <JFXTextField fx:id="adress" maxWidth="300.0" prefHeight="25.0" promptText="Adres gry"/>
+                    <Label fx:id="map" alignment="CENTER" text="Aktualnie używana mapa: brak" textAlignment="CENTER"/>
+                    <HBox alignment="CENTER" prefHeight="40.0" prefWidth="436.0">
+                        <children>
+                            <JFXButton fx:id="upload" mnemonicParsing="false" text="Wgraj mapę" textAlignment="CENTER"/>
+                            <JFXButton fx:id="start" disable="true" mnemonicParsing="false" text="Uruchom"/>
+                        </children>
+                    </HBox>
+                </children>
+            </VBox>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+        </VBox>
+    </children>
 </StackPane>

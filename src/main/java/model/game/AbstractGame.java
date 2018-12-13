@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractGame {
-    protected List<Player> players;
+    protected List<Player> players = new ArrayList<Player>();
     protected BoardMovementInterface boardMovementInterface;
     protected int limit;
 
@@ -19,15 +19,16 @@ public abstract class AbstractGame {
 
     public void addPlayer(Player player) throws CannotAddPlayerException {
         if (players.size() == limit) throw new CannotAddPlayerException("Maximum players threshold reached");
-        if (players == null) {
-            players = new ArrayList<Player>();
+        if (players.contains(player)) return;
+        if (players.size() == 0) {
             try {
                 player.setId(1);
+                players.add(player);
+                return;
             } catch (PlayerNotFullyInitializedException e) {
                 throw new CannotAddPlayerException("Given player has not been initialized");
             }
         }
-        if (players.contains(player)) return;
         try {
             player.setId(players.get(players.size() - 2).getId() + 1);
         } catch (PlayerNotFullyInitializedException e) {
