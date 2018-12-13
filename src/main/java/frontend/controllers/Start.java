@@ -1,4 +1,4 @@
 package frontend.controllers;
 
-public class Start {
+public class Start extends AbstractController {
 }
