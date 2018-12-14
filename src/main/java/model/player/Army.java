@@ -14,8 +14,12 @@ public class Army {
         }
     }
 
-    public List<Piece> getPieces() {
-        return pieces;
+    public Piece getPieceByPosition(PiecePosition position) {
+        for (Piece piece : this.pieces) {
+            if (piece.getPosition() == position) return piece;
+        }
+        //todo add exception
+        return null;
     }
 
     void setId(int id) {

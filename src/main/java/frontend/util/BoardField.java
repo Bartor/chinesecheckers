@@ -7,10 +7,13 @@ import model.player.Player;
 public class BoardField extends RadioButton {
     private Piece piece;
     private Player player;
-    public BoardField(Piece piece, String color) {
+    public BoardField(String color) {
         super();
-        this.piece = piece;
         this.setStyle("-fx-color: " + color);
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
     }
     public void setPlayer(Player player) {
         this.player = player;

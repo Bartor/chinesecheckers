@@ -1,11 +1,17 @@
 package model.game;
 
+import com.sun.istack.internal.NotNull;
 import model.board.BoardMovementInterface;
+import model.player.Army;
 import model.player.Piece;
+import model.player.PiecePosition;
 import model.player.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BasicGame extends AbstractGame {
-    public BasicGame(BoardMovementInterface boardMovementInterface, int playersLimit) {
+    public BasicGame(@NotNull BoardMovementInterface boardMovementInterface, int playersLimit) {
         this.boardMovementInterface = boardMovementInterface;
         this.limit = playersLimit;
     }
@@ -16,5 +22,20 @@ public class BasicGame extends AbstractGame {
             if (!this.boardMovementInterface.onWinZone(piece)) return false;
         }
         return true;
+    }
+
+    @Override
+    public void createArmy(Player player) {
+        int boardFields[][] = this.boardMovementInterface.getBoard().getBoardFields();
+        List<PiecePosition> startingPositions = new ArrayList<PiecePosition>();
+        for (int i = 0; i < boardFields.length; i++) {
+            for (int j = 0; j < boardFields[i].length; j++) {
+                if (boardFields[i][j] == player.getId()) {
+                    startingPositions.add(new PiecePosition(i, j));
+                }
+            }
+        }
+        Army army = new Army(startingPositions.toArray(new PiecePosition[0]));
+        player.setArmy(army);
     }
 }
