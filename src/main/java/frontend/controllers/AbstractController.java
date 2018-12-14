@@ -1,7 +1,6 @@
 package frontend.controllers;
 
-import com.jfoenix.controls.JFXDialog;
-import frontend.SceneController;
+import frontend.util.SceneController;
 import javafx.scene.control.Alert;
 import model.game.AbstractGame;
 

@@ -1,4 +1,4 @@
-package frontend;
+package frontend.util;
 
 import com.sun.istack.internal.NotNull;
 import javafx.scene.Scene;
