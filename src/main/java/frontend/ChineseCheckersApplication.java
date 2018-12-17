@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class ChineseCheckersApplication extends Application {
     private void loadSceneFromPath(SceneController sceneController, String name) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("views/" + name + ".fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/" + name + ".fxml"));
         try {
             Parent root = loader.load();
             sceneController.addScene(name, new Scene(root, 800, 600));

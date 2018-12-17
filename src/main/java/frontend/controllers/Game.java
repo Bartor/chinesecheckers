@@ -178,8 +178,6 @@ public class Game extends AbstractController {
     }
 
     private void move(BoardField field) {
-        //just temporary way to see if it shows possible moves correctly. Yes, it does
-        HashSet<BoardField> boardf = new HashSet<BoardField>();
         if (game.getTurn() == thisPlayer.getId()) {
             PiecePosition[] moves = game.getBoardMovementInterface().getMoves(field.getPiece());
             System.out.println("Printing possible moves:");
@@ -187,15 +185,12 @@ public class Game extends AbstractController {
                 System.out.println("Move: " + move);
                 for (BoardField boardField : fields) {
                     if (boardField.getPosition().getCol() == move.getCol() && boardField.getPosition().getRow() == move.getRow()) {
-                        boardf.add(boardField);
+                        boardField.setDisable(false);
                     }
                     else{
                         boardField.setDisable(true);
                     }
                 }
-            }
-            for(BoardField boardField : boardf){
-                boardField.setDisable(false);
             }
         }
     }
