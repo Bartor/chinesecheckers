@@ -124,11 +124,14 @@ public class Game extends AbstractController {
             }
             boardBox.getChildren().add(hbox);
         }
+        //todo remove this afterwards
         nextTurn();
     }
 
     private void nextTurn() {
+        //todo add some network code to handle this
         if (game.getTurn() == thisPlayer.getId()) {
+            state = TurnState.YOUR_TURN;
             for (BoardField field : fields) {
                 if (field.getPlayer() == thisPlayer) {
                     field.setDisable(false);

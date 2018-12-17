@@ -32,6 +32,7 @@ public class ChineseCheckersApplication extends Application {
         try {
             loadSceneFromPath(sceneController, "start");
             loadSceneFromPath(sceneController, "game");
+            loadSceneFromPath(sceneController, "pregame");
             stage.setTitle("Chinese Checkers");
             stage.setScene(sceneController.getScene("start"));
             stage.show();
