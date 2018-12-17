@@ -2,6 +2,7 @@ package model.game;
 
 import model.board.BoardMovementInterface;
 import model.exceptions.CannotAddPlayerException;
+import model.exceptions.NoSuchPlayerException;
 import model.exceptions.PlayerNotFullyInitializedException;
 import model.player.Player;
 
@@ -26,8 +27,9 @@ public abstract class AbstractGame {
             players.add(player);
             return 1;
         }
-        //todo fix ids to give (1, 4), (1, 2, 4, 5) and (1, 2, 3, 4, 5, 6) only
-        player.setId(players.get(players.size() - 1).getId() + 1);
+        //ids in correct order (1, 4), (1, 2, 4, 5) and (1, 2, 3, 4, 5, 6) only
+        //finally order (1,4,2,5,3,6)
+        player.setId(((2*(players.size()+5)-1)+5*(int)Math.pow(-1, (players.size()+5)))/4);
         players.add(player);
         return player.getId();
     }
@@ -36,12 +38,11 @@ public abstract class AbstractGame {
         return limit;
     }
 
-    public Player getPlayerById(int id) {
+    public Player getPlayerById(int id) throws NoSuchPlayerException {
         for (Player player : this.players) {
             if (player.getId() == id) return player;
         }
-        //todo add exception for no player
-        return null;
+        throw new NoSuchPlayerException("There is no such player in this game");
     }
 
     public int getTurn() {

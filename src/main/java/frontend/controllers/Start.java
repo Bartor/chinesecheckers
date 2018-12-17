@@ -15,6 +15,7 @@ import model.board.BoardInterdace;
 import model.board.BoardMovementInterface;
 import model.exceptions.CannotAddPlayerException;
 import model.exceptions.CorruptedFileException;
+import model.exceptions.NoSuchPlayerException;
 import model.exceptions.PlayerNotFullyInitializedException;
 import model.game.BasicGame;
 import model.player.Player;
@@ -74,7 +75,14 @@ public class Start extends AbstractController {
                     } catch (CannotAddPlayerException e) {
                         showAlert(e.getMessage());
                     }
-                    if (thisId != 0) thisPlayer = game.getPlayerById(thisId);
+                    //still to do
+                    if (thisId != 0) {
+                        try {
+                            thisPlayer = game.getPlayerById(thisId);
+                        } catch (NoSuchPlayerException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 game.setTurn(6);
                 try {
