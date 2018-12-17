@@ -18,6 +18,7 @@ import java.util.List;
 
 public class Game extends AbstractController {
     private List<BoardField> fields = new ArrayList<>();
+    private List<BoardField> availableMoves = new ArrayList<>();
 
     @FXML
     VBox boardBox;
@@ -170,8 +171,6 @@ public class Game extends AbstractController {
     }
 
     private void choose(BoardField field) {
-        //just temporary way to see if it shows possible moves correctly. Yes, it does
-        List<BoardField> boardf = new ArrayList<>();
         if (game.getTurn() == thisPlayer.getId()) {
             PiecePosition[] moves = game.getBoardMovementInterface().getMoves(field.getPiece());
             System.out.println("Printing possible moves:");
@@ -179,13 +178,13 @@ public class Game extends AbstractController {
                 System.out.println("Move: " + move);
                 for (BoardField boardField : fields) {
                     if (boardField.getPosition().getCol() == move.getCol() && boardField.getPosition().getRow() == move.getRow()) {
-                        boardf.add(boardField);
+                        availableMoves.add(boardField);
                     } else {
                         boardField.setDisable(true);
                     }
                 }
             }
-            for(BoardField boardField : boardf) {
+            for(BoardField boardField : availableMoves) {
                 boardField.setDisable(false);
             }
         }
