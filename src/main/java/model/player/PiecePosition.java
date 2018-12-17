@@ -8,8 +8,17 @@ public class PiecePosition implements Comparable<PiecePosition> {
         this.col = col;
     }
 
+    @Override
     public int compareTo(PiecePosition o) {
-        return !(o.getCol() == this.col && o.getRow() == this.row) ? 1 : 0;
+        if (this.col == o.getCol() && this.row == o.getRow()) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    public boolean equals(PiecePosition o) {
+        return compareTo(o) == 0;
     }
 
     @Override

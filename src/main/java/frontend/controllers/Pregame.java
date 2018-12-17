@@ -1,4 +1,4 @@
 package frontend.controllers;
 
-public class Pregame {
+public class Pregame extends AbstractController {
 }

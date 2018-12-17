@@ -16,7 +16,7 @@ public class Army {
 
     public Piece getPieceByPosition(PiecePosition position) {
         for (Piece piece : this.pieces) {
-            if (piece.getPosition().getCol() == position.getCol() && piece.getPosition().getRow() == position.getRow()) return piece;
+            if (piece.getPosition().equals(position)) return piece;
         }
         return null;
     }

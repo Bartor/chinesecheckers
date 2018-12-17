@@ -160,7 +160,7 @@ public class Game extends AbstractController {
         for (PiecePosition move : moves) {
             System.out.println("Move: " + move);
             for (BoardField boardField : fields) {
-                if (boardField.getPosition().getCol() == move.getCol() && boardField.getPosition().getRow() == move.getRow()) {
+                if (boardField.getPosition().equals(move)) {
                     availableMoves.add(boardField);
                 } else {
                     boardField.setDisable(true);
