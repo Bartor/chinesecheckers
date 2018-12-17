@@ -11,6 +11,7 @@ public class BoardField extends RadioButton {
     private PiecePosition position;
     public BoardField(String color) {
         super();
+        setFocusTraversable(false);
         this.setStyle("-fx-color: " + color);
     }
 

@@ -2,30 +2,22 @@ package frontend.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import frontend.util.BoardField;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.exceptions.NoSuchPlayerException;
-import model.player.Piece;
 import model.player.PiecePosition;
 import model.player.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 public class Game extends AbstractController {
-    private List<BoardField> fields = new ArrayList<BoardField>();
+    private List<BoardField> fields = new ArrayList<>();
 
     @FXML
     VBox boardBox;
@@ -63,7 +55,7 @@ public class Game extends AbstractController {
                     boolean n = false;
                     switch (boardFields[i][j]) {
                         case 1: {
-                            Player tempPlayer = null;
+                            Player tempPlayer;
                             try {
                                 tempPlayer = game.getPlayerById(1);
                                 button.setPlayer(tempPlayer);
@@ -77,7 +69,7 @@ public class Game extends AbstractController {
 
                         }
                         case 2: {
-                            Player tempPlayer = null;
+                            Player tempPlayer;
                             try {
                                 tempPlayer = game.getPlayerById(2);
                                 button.setPlayer(tempPlayer);
@@ -91,7 +83,7 @@ public class Game extends AbstractController {
 
                         }
                         case 3: {
-                            Player tempPlayer = null;
+                            Player tempPlayer;
                             try {
                                 tempPlayer = game.getPlayerById(3);
                                 button.setPlayer(tempPlayer);
@@ -105,7 +97,7 @@ public class Game extends AbstractController {
 
                         }
                         case 4: {
-                            Player tempPlayer = null;
+                            Player tempPlayer;
                             try {
                                 tempPlayer = game.getPlayerById(4);
                                 button.setPlayer(tempPlayer);
@@ -119,7 +111,7 @@ public class Game extends AbstractController {
 
                         }
                         case 5: {
-                            Player tempPlayer = null;
+                            Player tempPlayer;
                             try {
                                 tempPlayer = game.getPlayerById(5);
                                 button.setPlayer(tempPlayer);
@@ -133,7 +125,7 @@ public class Game extends AbstractController {
 
                         }
                         case 6: {
-                            Player tempPlayer = null;
+                            Player tempPlayer;
                             try {
                                 tempPlayer = game.getPlayerById(6);
                                 button.setPlayer(tempPlayer);
@@ -154,7 +146,7 @@ public class Game extends AbstractController {
                     if (!n) {
                         button.setOnAction(new EventHandler<ActionEvent>() {
                             public void handle(ActionEvent event) {
-                                move(button);
+                                choose(button);
                             }
                         });
                         fields.add(button);
@@ -177,7 +169,9 @@ public class Game extends AbstractController {
         }
     }
 
-    private void move(BoardField field) {
+    private void choose(BoardField field) {
+        //just temporary way to see if it shows possible moves correctly. Yes, it does
+        List<BoardField> boardf = new ArrayList<>();
         if (game.getTurn() == thisPlayer.getId()) {
             PiecePosition[] moves = game.getBoardMovementInterface().getMoves(field.getPiece());
             System.out.println("Printing possible moves:");
@@ -185,12 +179,14 @@ public class Game extends AbstractController {
                 System.out.println("Move: " + move);
                 for (BoardField boardField : fields) {
                     if (boardField.getPosition().getCol() == move.getCol() && boardField.getPosition().getRow() == move.getRow()) {
-                        boardField.setDisable(false);
-                    }
-                    else{
+                        boardf.add(boardField);
+                    } else {
                         boardField.setDisable(true);
                     }
                 }
+            }
+            for(BoardField boardField : boardf) {
+                boardField.setDisable(false);
             }
         }
     }
