@@ -84,95 +84,37 @@ public class Game extends AbstractController {
                 } else {
                     PiecePosition pos = new PiecePosition(i, j);
                     boolean n = false;
-                    switch (boardFields[i][j]) {
-                        case 1: {
-                            Player tempPlayer;
-                            try {
-                                tempPlayer = game.getPlayerById(1);
-                                button.setPlayer(tempPlayer);
-                                button.setPosition(pos);
-                                button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
-                                button.setStyle("-fx-color: blue");
-                                break;
-                            } catch (NoSuchPlayerException e) {
-                                e.printStackTrace();
+                    if (boardFields[i][j] > 0 && boardFields[i][j] < 7) {
+                        try {
+                            Player tempPlayer = game.getPlayerById(boardFields[i][j]);
+                            button.setPlayer(tempPlayer);
+                            button.setPosition(pos);
+                            button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
+                            switch (boardFields[i][j]) {
+                                case 1:
+                                    button.setStyle("-fx-color: blue");
+                                    break;
+                                case 2:
+                                    button.setStyle("-fx-color: yellow");
+                                    break;
+                                case 3:
+                                    button.setStyle("-fx-color: red");
+                                    break;
+                                case 4:
+                                    button.setStyle("-fx-color: green");
+                                    break;
+                                case 5:
+                                    button.setStyle("-fx-color: purple");
+                                    break;
+                                case 6:
+                                    button.setStyle("-fx-color: orange");
+                                    break;
                             }
-
+                        } catch (NoSuchPlayerException e) {
+                            showAlert(e.getMessage());
                         }
-                        case 2: {
-                            Player tempPlayer;
-                            try {
-                                tempPlayer = game.getPlayerById(2);
-                                button.setPlayer(tempPlayer);
-                                button.setPosition(pos);
-                                button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
-                                button.setStyle("-fx-color: yellow;");
-                                break;
-                            } catch (NoSuchPlayerException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                        case 3: {
-                            Player tempPlayer;
-                            try {
-                                tempPlayer = game.getPlayerById(3);
-                                button.setPlayer(tempPlayer);
-                                button.setPosition(pos);
-                                button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
-                                button.setStyle("-fx-color: green;");
-                                break;
-                            } catch (NoSuchPlayerException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                        case 4: {
-                            Player tempPlayer;
-                            try {
-                                tempPlayer = game.getPlayerById(4);
-                                button.setPlayer(tempPlayer);
-                                button.setPosition(pos);
-                                button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
-                                button.setStyle("-fx-color: red;");
-                                break;
-                            } catch (NoSuchPlayerException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                        case 5: {
-                            Player tempPlayer;
-                            try {
-                                tempPlayer = game.getPlayerById(5);
-                                button.setPlayer(tempPlayer);
-                                button.setPosition(pos);
-                                button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
-                                button.setStyle("-fx-color: purple;");
-                                break;
-                            } catch (NoSuchPlayerException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                        case 6: {
-                            Player tempPlayer;
-                            try {
-                                tempPlayer = game.getPlayerById(6);
-                                button.setPlayer(tempPlayer);
-                                button.setPosition(pos);
-                                button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
-                                button.setStyle("-fx-color: orange;");
-                                break;
-                            } catch (NoSuchPlayerException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                        default: {
-                            n = true;
-                            break;
-                        }
+                    } else {
+                        n = true;
                     }
                     if (!n) {
                         fields.add(button);
