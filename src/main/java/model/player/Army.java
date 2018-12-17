@@ -16,9 +16,8 @@ public class Army {
 
     public Piece getPieceByPosition(PiecePosition position) {
         for (Piece piece : this.pieces) {
-            if (piece.getPosition() == position) return piece;
+            if (piece.getPosition().getCol() == position.getCol() && piece.getPosition().getRow() == position.getRow()) return piece;
         }
-        //todo add exception
         return null;
     }
 
@@ -27,5 +26,9 @@ public class Army {
         for (Piece piece : this.pieces) {
             piece.setId(id);
         }
+    }
+
+    public List<Piece> getPieces() {
+        return pieces;
     }
 }

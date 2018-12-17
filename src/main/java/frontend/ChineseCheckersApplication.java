@@ -37,7 +37,6 @@ public class ChineseCheckersApplication extends Application {
             stage.show();
         } catch (Exception e) {
             System.out.println(e);
-            return;
         }
     }
 

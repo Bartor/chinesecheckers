@@ -1,6 +1,7 @@
 package model.player;
 
 
+import com.sun.istack.internal.NotNull;
 import model.board.BasicBoard;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class Piece {
     private PiecePosition position;
     private int id;
 
-    public Piece(PiecePosition startingPosition) {
+    public Piece(@NotNull PiecePosition startingPosition) {
         this.position = startingPosition;
     }
 
@@ -19,7 +20,7 @@ public class Piece {
         return position;
     }
 
-    public void setPosition(PiecePosition position) {
+    public void setPosition(@NotNull PiecePosition position) {
         this.position = position;
     }
 

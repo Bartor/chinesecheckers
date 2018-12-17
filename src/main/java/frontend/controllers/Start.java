@@ -62,16 +62,21 @@ public class Start extends AbstractController {
         });
         start.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Player player = new Player(nick.getText().trim());
-                //todo implement it properly
-                net = new Network("a", 1);
-                setGame(net.getGame());
-                game.createArmy(player);
-                try {
-                    game.addPlayer(player);
-                } catch (CannotAddPlayerException e) {
-                    showAlert(e.getMessage());
+                for (int i = 0; i < 6; i++) {
+                    Player player = new Player(nick.getText().trim());
+                    //todo implement it properly
+                    //net = new Network("a", 1);
+                    //setGame(net.getGame());
+                    int thisId = 0;
+                    try {
+                        thisId = game.addPlayer(player);
+                        game.createArmy(player);
+                    } catch (CannotAddPlayerException e) {
+                        showAlert(e.getMessage());
+                    }
+                    if (thisId != 0) thisPlayer = game.getPlayerById(thisId);
                 }
+                game.setTurn(6);
                 try {
                     sceneController.switchScene("game");
                 } catch (Exception e) {

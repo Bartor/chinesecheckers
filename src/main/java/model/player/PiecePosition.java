@@ -9,7 +9,12 @@ public class PiecePosition implements Comparable<PiecePosition> {
     }
 
     public int compareTo(PiecePosition o) {
-        return !(o.getCol() == this.getCol() && o.getRow() == this.getRow()) ? 1 : 0;
+        return !(o.getCol() == this.col && o.getRow() == this.row) ? 1 : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + this.getRow() + " " + this.getCol() + ")";
     }
 
     public int getCol() {

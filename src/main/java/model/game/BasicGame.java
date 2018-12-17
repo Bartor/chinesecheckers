@@ -35,7 +35,11 @@ public class BasicGame extends AbstractGame {
                 }
             }
         }
-        Army army = new Army(startingPositions.toArray(new PiecePosition[0]));
+        PiecePosition[] pos = new PiecePosition[startingPositions.size()];
+        for (int i = 0; i < startingPositions.size(); i++) {
+            pos[i] = startingPositions.get(i);
+        }
+        Army army = new Army(pos);
         player.setArmy(army);
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 public abstract class AbstractGame {
     protected List<Player> players = new ArrayList<Player>();
     protected BoardMovementInterface boardMovementInterface;
+    protected int turn;
     protected int limit;
 
     public BoardMovementInterface getBoardMovementInterface() {
@@ -21,20 +22,12 @@ public abstract class AbstractGame {
         if (players.size() == limit) throw new CannotAddPlayerException("Maximum players threshold reached");
         if (players.contains(player)) return -1;
         if (players.size() == 0) {
-            try {
-                player.setId(1);
-                players.add(player);
-                return 1;
-            } catch (PlayerNotFullyInitializedException e) {
-                throw new CannotAddPlayerException("Given player has not been initialized");
-            }
+            player.setId(1);
+            players.add(player);
+            return 1;
         }
-        try {
-            //todo fix ids to give (1, 4), (1, 2, 4, 5) and (1, 2, 3, 4, 5, 6) only
-            player.setId(players.get(players.size() - 2).getId() + 1);
-        } catch (PlayerNotFullyInitializedException e) {
-            throw new CannotAddPlayerException("Given player has not been initialized");
-        }
+        //todo fix ids to give (1, 4), (1, 2, 4, 5) and (1, 2, 3, 4, 5, 6) only
+        player.setId(players.get(players.size() - 1).getId() + 1);
         players.add(player);
         return player.getId();
     }
@@ -49,6 +42,14 @@ public abstract class AbstractGame {
         }
         //todo add exception for no player
         return null;
+    }
+
+    public int getTurn() {
+        return this.turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
     }
 
     abstract public void createArmy(Player player);
