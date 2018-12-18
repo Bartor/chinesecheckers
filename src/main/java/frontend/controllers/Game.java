@@ -21,6 +21,7 @@ import java.util.List;
 public class Game extends AbstractController {
     private List<BoardField> fields = new ArrayList<>();
     private List<BoardField> availableMoves = new ArrayList<>();
+    private List<BoardField> availableJumpMoves = new ArrayList<>();
     private BoardField chosen;
     private TurnState state;
 
@@ -50,7 +51,12 @@ public class Game extends AbstractController {
             field.setDisable(true);
             field.setSelected(false);
         }
+        for (BoardField field : availableJumpMoves) {
+            field.setDisable(true);
+            field.setSelected(false);
+        }
         availableMoves.clear();
+        availableJumpMoves.clear();
     }
 
     private void loadFields() {
@@ -87,7 +93,6 @@ public class Game extends AbstractController {
                     if (boardFields[i][j] > 0 && boardFields[i][j] < 7) {
                         try {
                             Player tempPlayer = game.getPlayerById(boardFields[i][j]);
-                            button.setPlayer(tempPlayer);
                             button.setPosition(pos);
                             button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
                             switch (boardFields[i][j]) {
@@ -129,33 +134,57 @@ public class Game extends AbstractController {
     }
 
     private void nextTurn() {
+        if (state != TurnState.AFTER_JUMP) {
+
+        }
+
         //todo add some network code to handle this
         if (game.getTurn() == thisPlayer.getId()) {
             state = TurnState.YOUR_TURN;
             for (BoardField field : fields) {
-                if (field.getPlayer() == thisPlayer) {
+                if (field.getPiece() != null && field.getPiece().getId() == thisPlayer.getId()) {
                     field.setDisable(false);
+                } else {
+                    field.setDisable(true);
                 }
             }
         }
     }
 
     private void move(BoardField origin, BoardField target) {
-        target.setStyle(origin.getStyle());
-        origin.setStyle("-fx-color: white");
         try {
             game.getBoardMovementInterface().makeMove(origin.getPiece(), target.getPosition());
         } catch (MoveNotAllowedException e) {
             showAlert(e.getMessage());
+            return;
         }
-        origin.setSelected(false);
-        wipeAvailable();
+        //switch styles
+        target.setStyle(origin.getStyle());
+        origin.setStyle("-fx-color: white");
+
+        //switch pieces
         target.setPiece(origin.getPiece());
         origin.setPiece(null);
+
+        //unselect them
+        origin.setSelected(false);
+        target.setSelected(false);
+
+        //if move was made WITH jumping, we change state to AFTER_JUMP
+        if (availableJumpMoves.contains(target)) {
+            state = TurnState.AFTER_JUMP;
+        }
+
+        //we delete available pieces
+        wipeAvailable();
+        //and fire next turn
+        nextTurn();
     }
 
     private void choose(BoardField field) {
         PiecePosition[] moves = game.getBoardMovementInterface().getMoves(field.getPiece());
+        //TODO MAKE THOSE FUNCTIONS DO WHATH THEY WERE MEANT TO DO
+        PiecePosition[] jumpMoves = game.getBoardMovementInterface().getMovesByJump(field.getPiece());
         System.out.println("Printing possible moves:");
         for (PiecePosition move : moves) {
             System.out.println("Move: " + move);
@@ -167,7 +196,19 @@ public class Game extends AbstractController {
                 }
             }
         }
+        for (PiecePosition move : jumpMoves) {
+            for (BoardField boardField : fields) {
+                if (boardField.getPosition().equals(move)) {
+                    availableJumpMoves.add(boardField);
+                } else {
+                    boardField.setDisable(true);
+                }
+            }
+        }
         for (BoardField boardField : availableMoves) {
+            boardField.setDisable(false);
+        }
+        for (BoardField boardField : availableJumpMoves) {
             boardField.setDisable(false);
         }
         state = TurnState.PIECE_CHOSEN;

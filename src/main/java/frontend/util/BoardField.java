@@ -21,12 +21,6 @@ public class BoardField extends RadioButton {
     public void setPiece(Piece piece) {
         this.piece = piece;
     }
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-    public Player getPlayer() {
-        return player;
-    }
     public Piece getPiece() {
         return piece;
     }
