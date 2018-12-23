@@ -73,7 +73,7 @@ public class BasicBoardMovementTest {
             BasicBoardMovement testBoardMovement = createBasicBMovementUnderTest();
             Piece piece = new Piece(new PiecePosition(0,3));
             testBoardMovement.makeMove(piece, new PiecePosition(2,4));
-            testBoardMovement.makeMoveByJump(piece, new PiecePosition(2,5));
+            //testBoardMovement.makeMoveByJump(piece, new PiecePosition(2,5));
 
         } catch (CorruptedFileException e) {
             e.printStackTrace();
