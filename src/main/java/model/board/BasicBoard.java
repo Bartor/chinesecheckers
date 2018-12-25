@@ -49,7 +49,7 @@ public class BasicBoard implements BoardInterdace {
                 for (int i = 0; i < line.length; i++) {
                     if (line[i].equals("n")) { //n is for null
                         boardFields[lineCounter][i] = -1;
-                        positions[lineCounter][i] = 0;
+                        positions[lineCounter][i] = -1;
                         continue;
                     }
                     try {
