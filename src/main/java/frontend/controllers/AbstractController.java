@@ -1,6 +1,5 @@
 package frontend.controllers;
 
-import frontend.util.Network;
 import frontend.util.SceneController;
 import javafx.scene.control.Alert;
 import model.game.AbstractGame;
@@ -11,7 +10,6 @@ public abstract class AbstractController {
     protected static Player thisPlayer;
     protected static int turn;
     protected SceneController sceneController;
-    protected Network net;
 
     public void setSceneController(SceneController controller) {
         this.sceneController = controller;

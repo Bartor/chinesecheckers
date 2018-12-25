@@ -2,7 +2,6 @@ package frontend.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import frontend.util.Network;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import model.board.BoardMovementInterface;
 import model.exceptions.CannotAddPlayerException;
 import model.exceptions.CorruptedFileException;
 import model.exceptions.NoSuchPlayerException;
-import model.exceptions.PlayerNotFullyInitializedException;
 import model.game.BasicGame;
 import model.player.Player;
 
