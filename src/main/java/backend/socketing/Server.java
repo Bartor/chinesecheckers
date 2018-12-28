@@ -1,5 +1,9 @@
 package backend.socketing;
 
+import backend.interpreter.MessageInterpreter;
+import com.google.gson.JsonObject;
+import netscape.javascript.JSObject;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,7 +15,6 @@ import java.util.List;
  */
 public class Server {
     private int port;
-    private List<ServerClient> clients = new ArrayList<>();
 
     public Server (int port) {
         this.port = port;
@@ -34,8 +37,7 @@ public class Server {
                 return;
             }
             ServerClient temp = new ServerClient(socket);
-            temp.initialize();
-            clients.add(temp);
+            temp.run();
         }
     }
 }

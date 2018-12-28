@@ -1,21 +1,39 @@
 package backend;
 
+import backend.interpreter.MessageInterpreter;
+import backend.socketing.MessageQueueSingleton;
 import backend.socketing.Server;
+import model.board.BasicBoard;
+import model.board.BasicBoardMovement;
+import model.exceptions.CorruptedFileException;
+
+import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
-        Server server = new Server(1234);
+        int port;
+        int limit;
+        BasicBoard basicBoard;
+
+        try {
+            port = Integer.parseInt(args[0]);
+            limit = Integer.parseInt(args[1]);
+            basicBoard = new BasicBoard();
+            basicBoard.loadBoard(new File(args[2]));
+        } catch (NumberFormatException e) {
+            System.out.println("Format: [port] [player limit 2 | 4 | 6] [path to board file]");
+            return;
+        } catch (CorruptedFileException e) {
+            System.out.println(e.getMessage());
+            System.out.println("File was " + args[2]);
+            return;
+        }
+        Server server = new Server(port);
+
+        //initializing static classes
+        new GameSingleton(new BasicBoardMovement(basicBoard), limit);
+        new MessageInterpreter(server);
+
         server.start();
-        /***
-         * ogólnie to przydałoby się tu dodać dużo observerów
-         * i je implementować nawet tą klasą główną
-         * one mają jedną metodę UPDATE, która przyjmuje stringa
-         * string to będzie JSON postaci:
-         * {"type": ..., "content": ...}
-         * gdzie np. type to będzie "move" albo "connected" itd.
-         * input działa na osobnym wątku, można odebrać na luzie kilka wiadomości od klienta
-         * no i no w sumie tyle
-         * może ci się uda to ogarnąć xD bo ten mój aktualny szkic tu jest bardzo chaotyczny
-         ***/
     }
 }

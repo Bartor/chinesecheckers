@@ -1,46 +1,58 @@
 package backend.socketing;
 
+import backend.interpreter.MessageInterpreter;
+
 import java.io.*;
 import java.net.Socket;
-
+import java.util.ArrayList;
+import java.util.List;
 
 /***
  * Represents a single client. Has a separate thread for all the input (client may want to send several inputs
  * and not read anything).
  */
-public class ServerClient {
+public class ServerClient implements Runnable {
     private Socket socket;
-    private InputStream in;
-    private OutputStream out;
+    private List<String> sent = new ArrayList<>();
+    private List<String> toSend = new ArrayList<>();
 
     public ServerClient(Socket socket) {
         this.socket = socket;
     }
 
-    public void writeToOutput(String message) {
+    @Override
+    public void run() {
+        BufferedReader br;
+        PrintWriter pr;
         try {
-            PrintWriter pr = new PrintWriter(out);
-            pr.println(message);
-            pr.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-    }
-
-    public void initialize() {
-        System.out.println("Client thread starting...");
-
-        try {
-            in = socket.getInputStream();
-            out = socket.getOutputStream();
+            br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            pr = new PrintWriter(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
 
-        InputThread input = new InputThread(in);
-        input.start();
-        //writeToOutput("siema");
+        String message;
+        while (true) {
+            try {
+                message = br.readLine(); //when first started, waits for client to send his nickname
+                MessageInterpreter.interpret(message);
+                for (String msg : MessageQueueSingleton.getMessages()) {
+                    if (!this.sent.contains(msg)) {
+                        toSend.add(msg);
+                    }
+                }
+                if (toSend.size() == 0) {
+                    pr.println("{\"type\": \"no-changes\", \"content\": \"\", \"to\": \"all\"}");
+                } else {
+                    pr.println(toSend.get(0));
+                    sent.add(toSend.get(0));
+                    toSend.remove(0);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+        }
     }
 }
