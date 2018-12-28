@@ -8,12 +8,6 @@ import model.exceptions.CannotAddPlayerException;
 import model.player.Player;
 
 public class MessageInterpreter {
-    private static Server server;
-
-    public MessageInterpreter(Server server) {
-        MessageInterpreter.server = server;
-    }
-
     public static void interpret(String message) {
         String type = new JsonParser().parse(message).getAsJsonObject().get("type").getAsString();
 

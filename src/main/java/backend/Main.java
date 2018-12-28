@@ -1,7 +1,6 @@
 package backend;
 
 import backend.interpreter.MessageInterpreter;
-import backend.socketing.MessageQueueSingleton;
 import backend.socketing.Server;
 import model.board.BasicBoard;
 import model.board.BasicBoardMovement;
@@ -15,6 +14,10 @@ public class Main {
         int limit;
         BasicBoard basicBoard;
 
+        if (args.length != 3) {
+            System.out.println("Format: [port] [player limit 2 | 4 | 6] [path to board file]");
+            return;
+        }
         try {
             port = Integer.parseInt(args[0]);
             limit = Integer.parseInt(args[1]);
@@ -28,11 +31,15 @@ public class Main {
             System.out.println("File was " + args[2]);
             return;
         }
+        if (limit != 2 && limit != 4 && limit != 6) {
+            System.out.println("Limit has to be 2, 4 or 6");
+            return;
+        }
+
         Server server = new Server(port);
 
         //initializing static classes
         new GameSingleton(new BasicBoardMovement(basicBoard), limit);
-        new MessageInterpreter(server);
 
         server.start();
     }
