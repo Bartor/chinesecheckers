@@ -51,14 +51,6 @@ public class NetworkControllerFacade {
     }
 
     /***
-     * Fired when someone won.
-     * @param id Id of the winnner.
-     */
-    public void wonGame(int id) {
-
-    }
-
-    /***
      * Special case of a nextTurn() which tells the controller that it's your turn now.
      */
     public void yourTurn() {
