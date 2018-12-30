@@ -23,4 +23,8 @@ public abstract class AbstractController {
         alert.setTitle("Error");
         alert.show();
     }
+
+    public static AbstractGame getGame() {
+        return game;
+    }
 }

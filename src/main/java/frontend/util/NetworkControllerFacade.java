@@ -2,6 +2,13 @@ package frontend.util;
 
 import frontend.controllers.AbstractController;
 import frontend.controllers.Game;
+import frontend.controllers.Pregame;
+import model.exceptions.CannotAddPlayerException;
+import model.exceptions.MoveNotAllowedException;
+import model.exceptions.NoSuchPlayerException;
+import model.player.Piece;
+import model.player.PiecePosition;
+import model.player.Player;
 
 /***
  * I have to use some patterns, so that's a pattern to make communication between network and controllers a bit simpler.
@@ -23,7 +30,20 @@ public class NetworkControllerFacade {
      * @param newPos Ending position of a piece, [x, y].
      */
     public void makeMove(int[] oldPos, int[] newPos) {
-
+        if (controller.getClass() == Game.class) {
+            Piece piece;
+            try {
+                piece = AbstractController.getGame().getPlayerById(AbstractController.getGame().getTurn()).getArmy().getPieceByPosition(new PiecePosition(oldPos[0], oldPos[1]));
+            } catch (NoSuchPlayerException e) {
+                controller.showAlert(e.getMessage());
+                return;
+            }
+            try {
+                AbstractController.getGame().getBoardMovementInterface().makeMove(piece, new PiecePosition(newPos[0], newPos[1]));
+            } catch (MoveNotAllowedException e) {
+                controller.showAlert(e.getMessage());
+            }
+        }
     }
 
     /***
@@ -31,7 +51,10 @@ public class NetworkControllerFacade {
      * @param id Id of a player that turn we switch to.
      */
     public void nextTurn(int id) {
-
+        AbstractController.getGame().setTurn(id);
+        if (controller.getClass() == Game.class) {
+            ((Game) controller).nextTurn();
+        }
     }
 
     /***
@@ -39,7 +62,18 @@ public class NetworkControllerFacade {
      * @param nick The nickname of a player.
      */
     public void addPlayer(String nick, int id) {
-
+        if (controller.getClass() == Pregame.class) {
+            Player player = new Player(nick);
+            player.setId(id);
+            try {
+                AbstractController.getGame().addPlayer(player);
+            } catch (CannotAddPlayerException e) {
+                controller.showAlert(e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Wrong controller state");
+        }
     }
 
     /***
@@ -48,12 +82,5 @@ public class NetworkControllerFacade {
      */
     public void startGame(AbstractController gameController) { //pass new game controller here
         this.controller = gameController;
-    }
-
-    /***
-     * Special case of a nextTurn() which tells the controller that it's your turn now.
-     */
-    public void yourTurn() {
-
     }
 }

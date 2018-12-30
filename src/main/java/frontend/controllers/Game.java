@@ -48,14 +48,6 @@ public class Game extends AbstractController {
         });
     }
 
-    private void wipeAvailable() {
-        for (BoardField field : availableMoves) {
-            field.setDisable(true);
-            field.setSelected(false);
-        }
-        availableMoves.clear();
-    }
-
     private void renderFields() {
         boardBox.getChildren().clear();
         int[][] boardFields = game.getBoardMovementInterface().getBoard().getPositions();
@@ -131,11 +123,12 @@ public class Game extends AbstractController {
         nextTurn();
     }
 
-    private void nextTurn() {
-        if (state != TurnState.AFTER_JUMP) {
-
+    public void nextTurn() {
+        try {
+            player.setText(game.getPlayerById(game.getTurn()).getName());
+        } catch (NoSuchPlayerException e) {
+            showAlert(e.getMessage());
         }
-        //todo add some network code to handle this
         if (game.getTurn() == thisPlayer.getId()) {
             state = TurnState.YOUR_TURN;
             for (BoardField field : fields) {
@@ -163,10 +156,9 @@ public class Game extends AbstractController {
 
     private void choose(BoardField field) {
         PiecePosition[] moves = game.getBoardMovementInterface().getMoves(field.getPiece());
-        //TODO MAKE THOSE FUNCTIONS DO WHATH THEY WERE MEANT TO DO
-        System.out.println("Printing possible moves:");
+        //System.out.println("Printing possible moves:");
         for (PiecePosition move : moves) {
-            System.out.println("Move: " + move);
+            //System.out.println("Move: " + move);
             for (BoardField boardField : fields) {
                 if (boardField.getPosition().equals(move)) {
                     availableMoves.add(boardField);

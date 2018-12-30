@@ -1,5 +1,6 @@
 package frontend.util;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import frontend.networking.Client;
 import frontend.networking.MessageInterpreter;
@@ -17,7 +18,24 @@ public class ControllerNetworkFacade {
      * @param newPos Position that we moved to, [x, y].
      */
     public void moved(int[] oldPos, int[] newPos) {
+        JsonObject jsonObject = new JsonObject();
+        JsonArray jsonArray = new JsonArray();
 
+        JsonArray oldp = new JsonArray();
+        oldp.add(oldPos[0]);
+        oldp.add(oldPos[1]);
+
+        JsonArray newp = new JsonArray();
+        newp.add(newPos[0]);
+        newp.add(newPos[1]);
+
+        jsonArray.add(oldp);
+        jsonArray.add(newp);
+
+        jsonObject.addProperty("type", "move");
+        jsonObject.addProperty("content", jsonArray.toString());
+
+        MessageInterpreter.getMessageQueue().add(jsonObject.toString());
     }
 
     public void connect(String addr, String nickname) throws Exception {
