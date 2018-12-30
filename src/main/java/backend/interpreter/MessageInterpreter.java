@@ -7,6 +7,12 @@ import com.google.gson.JsonParser;
 import model.exceptions.CannotAddPlayerException;
 import model.player.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/***
+ * Modifies state of game in the GameSingleton and adds proper messages to message Queue.
+ */
 public class MessageInterpreter {
     public static void interpret(String message) {
         String type = new JsonParser().parse(message).getAsJsonObject().get("type").getAsString();

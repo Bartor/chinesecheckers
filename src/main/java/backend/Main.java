@@ -8,6 +8,9 @@ import model.exceptions.CorruptedFileException;
 
 import java.io.File;
 
+/***
+ * Starts things off.
+ */
 public class Main {
     public static void main(String[] args) {
         int port;

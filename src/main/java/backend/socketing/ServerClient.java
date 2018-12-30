@@ -1,6 +1,7 @@
 package backend.socketing;
 
 import backend.interpreter.MessageInterpreter;
+import com.google.gson.JsonObject;
 
 import java.io.*;
 import java.net.Socket;
@@ -8,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /***
- * Represents a single client. Has a separate thread for all the input (client may want to send several inputs
- * and not read anything).
+ * A thread for a single client.
  */
 public class ServerClient implements Runnable {
     private Socket socket;
@@ -43,7 +43,11 @@ public class ServerClient implements Runnable {
                     }
                 }
                 if (toSend.size() == 0) {
-                    pr.println("{\"type\": \"no-changes\", \"content\": \"\", \"to\": \"all\"}");
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("type", "no-changes");
+                    jsonObject.addProperty("content", "");
+                    jsonObject.addProperty("to", "");
+                    pr.println(jsonObject.toString());
                 } else {
                     pr.println(toSend.get(0));
                     sent.add(toSend.get(0));
