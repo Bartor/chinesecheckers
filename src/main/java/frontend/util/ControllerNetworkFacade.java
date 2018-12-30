@@ -7,7 +7,12 @@ import frontend.networking.MessageInterpreter;
  * MessageInterpreter has a public static method interpret, so that's why we don't really need to take it as an arg.
  */
 public class ControllerNetworkFacade {
-    public void moved() {
+    /***
+     * Tells server that we moved.
+     * @param oldPos Position that we moved from, [x, y].
+     * @param newPos Position that we moved to, [x, y].
+     */
+    public void moved(int[] oldPos, int[] newPos) {
 
     }
 }
