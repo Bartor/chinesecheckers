@@ -38,7 +38,7 @@ public class NetworkControllerFacade {
      * Pre-game method. Adds a player to the game.
      * @param nick The nickname of a player.
      */
-    public void addPlayer(String nick) {
+    public void addPlayer(String nick, int id) {
 
     }
 

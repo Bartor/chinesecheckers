@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends AbstractController {
+
+    //TODO MAKE THIS USABLE FOR FACADE
+
     private List<BoardField> fields = new ArrayList<>();
     private List<BoardField> availableMoves = new ArrayList<>();
     private BoardField chosen;

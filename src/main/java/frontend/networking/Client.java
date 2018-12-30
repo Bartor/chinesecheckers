@@ -15,16 +15,16 @@ public class Client {
     public Client(String host, int port, int refreshTime) {
         this.host = host;
         this.port = port;
+        this.refreshTime = refreshTime;
     }
 
-    public void connect() {
+    public void connect() throws IOException {
         try {
             Socket socket = new Socket(host, port);
+
             new ClientThread(socket, refreshTime).run();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 }

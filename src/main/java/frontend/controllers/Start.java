@@ -2,6 +2,7 @@ package frontend.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import frontend.util.ControllerNetworkFacade;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import model.game.BasicGame;
 import model.player.Player;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Start extends AbstractController {
     private File file = null;
@@ -59,37 +61,26 @@ public class Start extends AbstractController {
                 }
             }
         });
+
         start.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                for (int i = 0; i < 6; i++) {
-                    Player player = new Player(nick.getText().trim());
-                    //todo implement it properly
-                    //net = new Network("a", 1);
-                    //setGame(net.getGame());
-                    int thisId = 0;
-                    try {
-                        thisId = game.addPlayer(player);
-                        game.createArmy(player);
-                    } catch (CannotAddPlayerException e) {
-                        showAlert(e.getMessage());
-                    }
-                    //still to do
-                    if (thisId != 0) {
-                        try {
-                            thisPlayer = game.getPlayerById(thisId);
-                        } catch (NoSuchPlayerException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                game.setTurn(6);
+                controllerNetworkFacade = new ControllerNetworkFacade();
                 try {
-                    sceneController.switchScene("game");
+                    controllerNetworkFacade.connect(adress.getText(), nick.getText());
+                } catch (Exception e) {
+                    showAlert("Couldn't connect to host");
+                    e.printStackTrace();
+                }
+                try {
+                    sceneController.switchScene("pregame");
                 } catch (Exception e) {
                     showAlert(e.getMessage());
+                    e.printStackTrace();
                 }
             }
         });
+
+        /* we won't need it really... just program the server properly now
         upload.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 FileChooser chooser = new FileChooser();
@@ -109,6 +100,6 @@ public class Start extends AbstractController {
                     game = new BasicGame(movementInterface, 6);
                 }
             }
-        });
+        });*/
     }
 }
