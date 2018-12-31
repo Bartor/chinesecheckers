@@ -73,6 +73,35 @@ public class BasicBoard implements BoardInterdace {
         }
     }
 
+    public void loadBoard(String[][] boardArray) throws CorruptedFileException {
+        for (int i = 0; i < boardArray.length; i++) {
+
+            this.boardFields[i] = new int[boardArray[i].length];
+            this.positions[i] = new int[boardArray[i].length];
+
+            for (int j = 0; j < boardArray[i].length; j++) {
+                if (boardArray[i][j].equals("n")) {
+                    boardFields[i][j] = -1;
+                    positions[i][j] = -1;
+                    continue;
+                }
+                try {
+                    int field = Integer.parseInt(boardArray[i][j]);
+                    if (field > 6) {
+                        throw new CorruptedFileException("This game supports up to six players only");
+                    }
+                    if (field < 0) {
+                        throw new CorruptedFileException("Values should start at 0");
+                    }
+                    boardFields[i][j] = field;
+                    positions[i][j] = field;
+                } catch (NumberFormatException e) {
+                    throw new CorruptedFileException("Values should be integers");
+                }
+            }
+        }
+    }
+
     /***
      * Getter for positions table.
      * @return Table of positions, see {@link #positions}.
