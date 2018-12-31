@@ -20,9 +20,9 @@ public class ChineseCheckersApplication extends Application {
             AbstractController controller = loader.getController();
             controller.setSceneController(sceneController);
         } catch (LoadException e) {
-            System.out.println(e);
+            e.printStackTrace();
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -33,8 +33,6 @@ public class ChineseCheckersApplication extends Application {
             loadSceneFromPath(sceneController, "start");
             loadSceneFromPath(sceneController, "game");
             loadSceneFromPath(sceneController, "pregame");
-
-
 
             stage.setTitle("Chinese Checkers");
             stage.setScene(sceneController.getScene("start"));

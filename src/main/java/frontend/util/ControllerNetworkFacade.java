@@ -13,11 +13,23 @@ import java.io.IOException;
  */
 public class ControllerNetworkFacade {
     /***
+     * Tells server that we are ready!
+     */
+    public static void ready() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", "ready");
+        jsonObject.addProperty("content", "");
+        jsonObject.addProperty("from", "ID"); //todo put id there somehow
+
+        MessageInterpreter.getMessageQueue().add(jsonObject.toString());
+    }
+
+    /***
      * Tells server that we moved.
      * @param oldPos Position that we moved from, [x, y].
      * @param newPos Position that we moved to, [x, y].
      */
-    public void moved(int[] oldPos, int[] newPos) {
+    public static void moved(int[] oldPos, int[] newPos) {
         JsonObject jsonObject = new JsonObject();
         JsonArray jsonArray = new JsonArray();
 
@@ -38,7 +50,7 @@ public class ControllerNetworkFacade {
         MessageInterpreter.getMessageQueue().add(jsonObject.toString());
     }
 
-    public void connect(String addr, String nickname) throws Exception {
+    public static void connect(String addr, String nickname) throws Exception {
         if (addr.split(":").length == 0) throw new Exception("That's pretty empty");
         String host = addr.split(":")[0];
         int port = addr.split(":").length == 1 ? 2137 : -1;

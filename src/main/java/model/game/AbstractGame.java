@@ -34,6 +34,10 @@ public abstract class AbstractGame {
         return player.getId();
     }
 
+    public int getNextId() {
+        return ((2*(players.size()+5)-1)+5*(int)Math.pow(-1, (players.size()+5)))/4;
+    }
+
     public void addPlayerWithId(Player player) throws CannotAddPlayerException {
         if (players.size() == limit) throw new CannotAddPlayerException("Maximum players threshold reached");
         if (players.contains(player)) throw new CannotAddPlayerException("Player already there");

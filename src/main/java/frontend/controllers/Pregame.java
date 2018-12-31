@@ -1,7 +1,11 @@
 package frontend.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import frontend.networking.MessageInterpreter;
+import frontend.util.ControllerNetworkFacade;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
@@ -10,11 +14,21 @@ import javafx.scene.text.Text;
 
 public class Pregame extends AbstractController {
     @FXML
-    VBox playerList;
+    private VBox playerList;
+
+    @FXML
+    JFXButton readyButton;
 
     @FXML
     public void initialize() {
         MessageInterpreter.spawnFacade(this);
+
+        readyButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ControllerNetworkFacade.ready();
+            }
+        });
     }
 
     public void addPlayer(String nick, int id) {
@@ -39,7 +53,7 @@ public class Pregame extends AbstractController {
         Platform.runLater(() -> {
             playerList.getChildren().add(playerBox);
         });
-        System.out.println("PLAYER ADDED!");
+        //System.out.println("PLAYER ADDED!");
     }
 
     public void readyPlayer(int id) {

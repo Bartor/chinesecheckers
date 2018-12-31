@@ -12,11 +12,12 @@ public class GameSingleton {
     private static BoardMovementInterface boardMovementInterface;
     private static int limit;
     private static AbstractGame game;
-
+    private static int readiedPlayers;
 
     public GameSingleton(BoardMovementInterface boardMovementInterface, int limit) {
         GameSingleton.boardMovementInterface = boardMovementInterface;
         GameSingleton.limit = limit;
+        readiedPlayers = 0;
     }
 
     public static AbstractGame getGame() {
@@ -28,5 +29,9 @@ public class GameSingleton {
             }
         }
         return game;
+    }
+
+    public static boolean readyPlayer() {
+        return ++GameSingleton.readiedPlayers == limit;
     }
 }

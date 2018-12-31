@@ -2,6 +2,7 @@ package backend.socketing;
 
 import backend.interpreter.MessageInterpreter;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.*;
 import java.net.Socket;
@@ -11,12 +12,14 @@ import java.util.List;
 /***
  * A thread for a single client.
  */
-public class ServerClient implements Runnable {
+public class ServerClient extends Thread {
     private Socket socket;
+    private int id;
+
     private List<String> sent = new ArrayList<>();
     private List<String> toSend = new ArrayList<>();
 
-    public ServerClient(Socket socket) {
+    public ServerClient(Socket socket, int id) {
         this.socket = socket;
     }
 
@@ -38,11 +41,14 @@ public class ServerClient implements Runnable {
         while (true) {
             try {
                 message = br.readLine(); //when first started, waits for client to send his nickname
-                System.out.println("Reading " + message);
+                System.out.println("Reading" + message);
                 MessageInterpreter.interpret(message);
                 for (String msg : MessageQueueSingleton.getMessages()) {
-                    if (!this.sent.contains(msg)) {
-                        toSend.add(msg);
+                    if (!sent.contains(msg) && !toSend.contains(msg)) {
+                        String to = new JsonParser().parse(msg).getAsJsonObject().get("to").getAsString();
+                        if (to.equals("all") || to.equals(String.valueOf(id))) {
+                            toSend.add(msg);
+                        }
                     }
                 }
                 if (toSend.size() == 0) {
@@ -50,13 +56,12 @@ public class ServerClient implements Runnable {
                     jsonObject.addProperty("type", "no-changes");
                     jsonObject.addProperty("content", "");
                     jsonObject.addProperty("to", "");
-                    System.out.println("Sending " + jsonObject.toString());
+                    System.out.println("NO CHANGES");
                     pr.println(jsonObject.toString());
                 } else {
                     System.out.println("Sending " + toSend.get(0));
                     pr.println(toSend.get(0));
-                    sent.add(toSend.get(0));
-                    toSend.remove(0);
+                    sent.add(toSend.remove(0));
                 }
                 pr.flush();
             } catch (IOException e) {

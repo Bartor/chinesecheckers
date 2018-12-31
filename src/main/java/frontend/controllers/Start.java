@@ -57,10 +57,9 @@ public class Start extends AbstractController {
 
         start.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                controllerNetworkFacade = new ControllerNetworkFacade();
                 try {
                     System.out.println("connecting to" + adress.getText());
-                    controllerNetworkFacade.connect(adress.getText(), nick.getText());
+                    ControllerNetworkFacade.connect(adress.getText(), nick.getText());
                 } catch (Exception e) {
                     showAlert("Couldn't connect to host");
                     e.printStackTrace();

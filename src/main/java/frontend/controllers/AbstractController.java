@@ -11,7 +11,6 @@ public abstract class AbstractController {
     protected static Player thisPlayer;
     protected static int turn;
     protected SceneController sceneController;
-    protected ControllerNetworkFacade controllerNetworkFacade;
 
     public void setSceneController(SceneController controller) {
         this.sceneController = controller;

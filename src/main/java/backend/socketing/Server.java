@@ -1,5 +1,6 @@
 package backend.socketing;
 
+import backend.GameSingleton;
 import backend.interpreter.MessageInterpreter;
 import com.google.gson.JsonObject;
 import netscape.javascript.JSObject;
@@ -36,8 +37,7 @@ public class Server {
                 e.printStackTrace();
                 return;
             }
-            ServerClient temp = new ServerClient(socket);
-            temp.run();
+            new ServerClient(socket, GameSingleton.getGame().getNextId()).start();
         }
     }
 }

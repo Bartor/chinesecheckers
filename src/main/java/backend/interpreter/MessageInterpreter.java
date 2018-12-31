@@ -6,6 +6,7 @@ import backend.socketing.Server;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import frontend.controllers.Game;
 import model.exceptions.CannotAddPlayerException;
 import model.player.Player;
 
@@ -56,6 +57,25 @@ public class MessageInterpreter {
             }
             case "move": {
                 //content - [[int, int], [int, int]] ([oldPosition, newPosition])
+                break;
+            }
+            case "ready": {
+                String from = new JsonParser().parse(message).getAsJsonObject().get("from").getAsString();
+
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("type", "ready");
+                jsonObject.addProperty("content", from);
+                jsonObject.addProperty("to", "all");
+
+                MessageQueueSingleton.getMessages().add(jsonObject.toString());
+                if (GameSingleton.readyPlayer()) {
+                    JsonObject start = new JsonObject();
+                    start.addProperty("type", "start-game");
+                    start.addProperty("content", "");
+                    start.addProperty("to", "all");
+
+                    MessageQueueSingleton.getMessages().add(start.toString());
+                }
                 break;
             }
         }
