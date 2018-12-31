@@ -26,9 +26,6 @@ public class Start extends AbstractController {
     private File file = null;
 
     @FXML
-    JFXButton upload;
-
-    @FXML
     JFXButton start;
 
     @FXML
@@ -36,9 +33,6 @@ public class Start extends AbstractController {
 
     @FXML
     JFXTextField adress;
-
-    @FXML
-    Label map;
 
     @FXML
     public void initialize() {
