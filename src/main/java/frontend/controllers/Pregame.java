@@ -7,8 +7,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.awt.*;
-
 public class Pregame extends AbstractController {
     @FXML
     VBox playerList;
