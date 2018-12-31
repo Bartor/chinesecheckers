@@ -26,6 +26,9 @@ public class Main {
             limit = Integer.parseInt(args[1]);
             basicBoard = new BasicBoard();
             basicBoard.loadBoard(new File(args[2]));
+
+            //TODO ADD MESSAGE WITH BOARD FILE TO MESSAGEQUEUE
+
         } catch (NumberFormatException e) {
             System.out.println("Format: [port] [player limit 2 | 4 | 6] [path to board file]");
             return;

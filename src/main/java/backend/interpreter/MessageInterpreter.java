@@ -3,6 +3,8 @@ package backend.interpreter;
 import backend.GameSingleton;
 import backend.socketing.MessageQueueSingleton;
 import backend.socketing.Server;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import model.exceptions.CannotAddPlayerException;
 import model.player.Player;
@@ -29,16 +31,27 @@ public class MessageInterpreter {
         switch (type) {
             case "new-client": {
                 //content - String: nickname
-                String content = new JsonParser().parse(message).getAsJsonObject().get("content").getAsString();
-                Player player = new Player(content);
+                String nick = new JsonParser().parse(message).getAsJsonObject().get("content").getAsString();
+                Player player = new Player(nick);
+                int id = -1;
                 try {
-                    GameSingleton.getGame().addPlayer(player);
+                    id = GameSingleton.getGame().addPlayer(player);
                 } catch (CannotAddPlayerException e) {
                     e.printStackTrace();
                 }
                 GameSingleton.getGame().createArmy(player);
 
-                MessageQueueSingleton.getMessages().add(message);
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("type", "new-client");
+
+                JsonArray arr = new JsonArray();
+                arr.add(nick);
+                arr.add(id);
+
+                jsonObject.add("content", arr);
+                jsonObject.addProperty("to", "all");
+
+                MessageQueueSingleton.getMessages().add(jsonObject.toString());
                 break;
             }
             case "move": {
