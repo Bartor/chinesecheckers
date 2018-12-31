@@ -43,20 +43,24 @@ public class Pregame extends AbstractController {
     }
 
     public void readyPlayer(int id) {
-        try {
-            ((Text) sceneController.getScene("pregame").lookup(String.valueOf(id))).setText("ready");
-        } catch (Exception e) {
-            showAlert(e.getMessage());
-            e.printStackTrace();
-        }
+        Platform.runLater(() -> {
+            try {
+                ((Text) sceneController.getScene("pregame").lookup(String.valueOf(id))).setText("ready");
+            } catch (Exception e) {
+                showAlert(e.getMessage());
+                e.printStackTrace();
+            }
+        });
     }
 
     public void startGame() {
-        try {
-            sceneController.switchScene("game");
-        } catch (Exception e) {
-            showAlert(e.getMessage());
-            e.printStackTrace();
-        }
+        Platform.runLater(() -> {
+            try {
+                sceneController.switchScene("game");
+            } catch (Exception e) {
+                showAlert(e.getMessage());
+                e.printStackTrace();
+            }
+        });
     }
 }
