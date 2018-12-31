@@ -1,6 +1,7 @@
 package frontend.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import frontend.networking.MessageInterpreter;
 import frontend.util.BoardField;
 import frontend.util.TurnState;
 import javafx.event.ActionEvent;
@@ -38,6 +39,9 @@ public class Game extends AbstractController {
 
     @FXML
     public void initialize() {
+        MessageInterpreter.spawnFacade(this);
+
+
         //todo delete this, debug purposes only
         state = TurnState.YOUR_TURN;
         map.setOnAction(new EventHandler<ActionEvent>() {

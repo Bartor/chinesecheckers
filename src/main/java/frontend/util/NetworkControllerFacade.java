@@ -4,6 +4,7 @@ import frontend.controllers.AbstractController;
 import frontend.controllers.Game;
 import frontend.controllers.Pregame;
 import model.exceptions.CannotAddPlayerException;
+import model.exceptions.CorruptedFileException;
 import model.exceptions.MoveNotAllowedException;
 import model.exceptions.NoSuchPlayerException;
 import model.player.Piece;
@@ -17,11 +18,20 @@ public class NetworkControllerFacade {
     private AbstractController controller;
 
     /***
-     * Starts up this facade with a pre-game controller.
-     * @param controller Pre-game controller.
+     * Starts up this facade with a controller.
+     * @param controller Controller.
      */
     public NetworkControllerFacade(AbstractController controller) {
         this.controller = controller;
+    }
+
+    public void loadMap(String[][] map) {
+        try {
+            controller.getGame().getBoardMovementInterface().getBoard().loadBoard(map);
+        } catch (CorruptedFileException e) {
+            controller.showAlert(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /***
@@ -65,12 +75,22 @@ public class NetworkControllerFacade {
         if (controller.getClass() == Pregame.class) {
             Player player = new Player(nick);
             player.setId(id);
+            AbstractController.getGame().createArmy(player);
             try {
                 AbstractController.getGame().addPlayer(player);
             } catch (CannotAddPlayerException e) {
                 controller.showAlert(e.getMessage());
                 e.printStackTrace();
             }
+            ((Pregame) controller).addPlayer(nick, id);
+        } else {
+            System.out.println("Wrong controller state");
+        }
+    }
+
+    public void ready(int id) {
+        if (controller.getClass() == Pregame.class) {
+            ((Pregame) controller).readyPlayer(id);
         } else {
             System.out.println("Wrong controller state");
         }
@@ -78,9 +98,16 @@ public class NetworkControllerFacade {
 
     /***
      * Method used to switch between pre-game and game.
-     * @param gameController A new controller to be used in game state.
      */
-    public void startGame(AbstractController gameController) { //pass new game controller here
-        this.controller = gameController;
+    public void startGame() { //pass new game controller here
+        if (controller.getClass() == Pregame.class) {
+            ((Pregame) controller).startGame();
+        } else {
+            System.out.println("Wrong controller state");
+        }
+    }
+
+    public void alert(String message) {
+        controller.showAlert(message);
     }
 }
