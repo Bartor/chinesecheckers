@@ -27,7 +27,7 @@ public class NetworkControllerFacade {
 
     public void loadMap(String[][] map) {
         try {
-            controller.getGame().getBoardMovementInterface().getBoard().loadBoard(map);
+            AbstractController.getGame().getBoardMovementInterface().getBoard().loadBoard(map);
         } catch (CorruptedFileException e) {
             controller.showAlert(e.getMessage());
             e.printStackTrace();
@@ -70,6 +70,7 @@ public class NetworkControllerFacade {
     /***
      * Pre-game method. Adds a player to the game.
      * @param nick The nickname of a player.
+     * @param id Player's id.
      */
     public void addPlayer(String nick, int id) {
         if (controller.getClass() == Pregame.class) {

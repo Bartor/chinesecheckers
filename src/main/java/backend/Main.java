@@ -1,7 +1,10 @@
 package backend;
 
 import backend.interpreter.MessageInterpreter;
+import backend.socketing.MessageQueueSingleton;
 import backend.socketing.Server;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import model.board.BasicBoard;
 import model.board.BasicBoardMovement;
 import model.exceptions.CorruptedFileException;
@@ -26,8 +29,20 @@ public class Main {
             limit = Integer.parseInt(args[1]);
             basicBoard = new BasicBoard();
             basicBoard.loadBoard(new File(args[2]));
-
             //TODO ADD MESSAGE WITH BOARD FILE TO MESSAGEQUEUE
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("type", "load-map");
+            JsonArray arr = new JsonArray();
+            for (int i = 0; i < basicBoard.getBoardFields().length; i++) {
+                JsonArray a = new JsonArray();
+                for (int j = 0; j < basicBoard.getBoardFields()[i].length; j++) {
+                    a.add(basicBoard.getBoardFields()[i][j]);
+                }
+                arr.add(a);
+            }
+            jsonObject.add("content", arr);
+            jsonObject.addProperty("to", "all");
+            MessageQueueSingleton.getMessages().add(jsonObject.toString());
 
         } catch (NumberFormatException e) {
             System.out.println("Format: [port] [player limit 2 | 4 | 6] [path to board file]");

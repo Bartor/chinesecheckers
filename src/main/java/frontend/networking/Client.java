@@ -22,7 +22,7 @@ public class Client {
         try {
             Socket socket = new Socket(host, port);
 
-            new ClientThread(socket, refreshTime).run();
+            new ClientThread(socket, refreshTime).start();
         } catch (IOException e) {
             throw e;
         }

@@ -20,8 +20,6 @@ public class MessageInterpreter {
 
     public static void interpret(String message) {
 
-        System.out.println("RECEIVED " + message);
-
         String type = new JsonParser().parse(message).getAsJsonObject().get("type").getAsString();
 
         System.out.println("INTERPRETING " + type);
@@ -29,9 +27,10 @@ public class MessageInterpreter {
         switch (type) {
             case "load-map": {
                 JsonArray arr = new JsonParser().parse(message).getAsJsonObject().get("content").getAsJsonArray();
-                String[][] boardArray = new String[arr.size()][arr.size()];
+                String[][] boardArray = new String[arr.size()][];
                 int i = 0;
                 for (JsonElement a : arr) {
+                    boardArray[i] = new String[a.getAsJsonArray().size()];
                     int j = 0;
                     for (JsonElement e : a.getAsJsonArray()) {
                         boardArray[i][j] = e.getAsString();
@@ -40,6 +39,7 @@ public class MessageInterpreter {
                     i++;
                 }
                 controllerFacade.loadMap(boardArray);
+                break;
             }
             case "new-client": {
                 String nick = new JsonParser().parse(message).getAsJsonObject().get("content").getAsJsonArray().get(0).toString();

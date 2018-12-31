@@ -74,13 +74,16 @@ public class BasicBoard implements BoardInterdace {
     }
 
     public void loadBoard(String[][] boardArray) throws CorruptedFileException {
+        boardFields = new int[boardArray.length][];
+        positions = new int[boardArray.length][];
+
         for (int i = 0; i < boardArray.length; i++) {
 
-            this.boardFields[i] = new int[boardArray[i].length];
-            this.positions[i] = new int[boardArray[i].length];
+            boardFields[i] = new int[boardArray[i].length];
+            positions[i] = new int[boardArray[i].length];
 
             for (int j = 0; j < boardArray[i].length; j++) {
-                if (boardArray[i][j].equals("n")) {
+                if (boardArray[i][j].equals("n") || boardArray[i][j].equals("-1")) {
                     boardFields[i][j] = -1;
                     positions[i][j] = -1;
                     continue;

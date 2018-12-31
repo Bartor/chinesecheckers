@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * Thread connecting to server. Receives info and passes it to the MessageInterpreter, which handles it.
  * Reads upcoming client-side data from MessagesInterpreter's messageQueue and sends it to server.
  */
-public class ClientThread implements Runnable {
+public class ClientThread extends Thread {
     private Socket socket;
     private BufferedReader br;
     private PrintWriter pr;

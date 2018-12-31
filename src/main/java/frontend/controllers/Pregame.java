@@ -1,6 +1,7 @@
 package frontend.controllers;
 
 import frontend.networking.MessageInterpreter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
@@ -34,6 +35,11 @@ public class Pregame extends AbstractController {
 
         playerBox.getChildren().add(nickIdBox);
         playerBox.getChildren().add(readyState);
+
+        Platform.runLater(() -> {
+            playerList.getChildren().add(playerBox);
+        });
+        System.out.println("PLAYER ADDED!");
     }
 
     public void readyPlayer(int id) {
