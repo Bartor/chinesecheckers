@@ -23,8 +23,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class Start extends AbstractController {
-    private File file = null;
-
     @FXML
     JFXButton start;
 
@@ -36,10 +34,11 @@ public class Start extends AbstractController {
 
     @FXML
     public void initialize() {
-        //todo add listeners
+        game = new BasicGame(new BasicBoardMovement(new BasicBoard()), 6);
+
         nick.setOnKeyReleased(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
-                if (nick.getText().trim().equals("") || adress.getText().trim().equals("") || file == null) {
+                if (nick.getText().trim().equals("") || adress.getText().trim().equals("")) {
                     start.setDisable(true);
                 } else {
                     start.setDisable(false);
@@ -48,7 +47,7 @@ public class Start extends AbstractController {
         });
         adress.setOnKeyReleased(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
-                if (nick.getText().trim().equals("") || adress.getText().trim().equals("") || file == null) {
+                if (nick.getText().trim().equals("") || adress.getText().trim().equals("")) {
                     start.setDisable(true);
                 } else {
                     start.setDisable(false);
@@ -60,12 +59,18 @@ public class Start extends AbstractController {
             public void handle(ActionEvent event) {
                 controllerNetworkFacade = new ControllerNetworkFacade();
                 try {
+                    System.out.println("connecting to" + adress.getText());
                     controllerNetworkFacade.connect(adress.getText(), nick.getText());
                 } catch (Exception e) {
                     showAlert("Couldn't connect to host");
                     e.printStackTrace();
                 }
                 try {
+                    while (game.getBoardMovementInterface().getBoard().getPositions() == null) {
+                        //fix this later
+                        System.out.println("loading board...");
+                        Thread.sleep(100);
+                    }
                     sceneController.switchScene("pregame");
                 } catch (Exception e) {
                     showAlert(e.getMessage());

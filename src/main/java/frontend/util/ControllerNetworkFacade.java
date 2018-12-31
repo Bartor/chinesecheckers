@@ -56,7 +56,8 @@ public class ControllerNetworkFacade {
 
             MessageInterpreter.getMessageQueue().add(jsonObject.toString());
 
-            new Client(addr, port, 100).connect();
+            System.out.println("Starting client thread");
+            new Client(host, port, 100).connect();
         } catch (IOException e) {
             throw e;
         }
