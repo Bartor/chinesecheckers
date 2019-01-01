@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import frontend.controllers.AbstractController;
 import frontend.networking.Client;
 import frontend.networking.MessageInterpreter;
+import model.player.Piece;
+import model.player.PiecePosition;
 
 import java.io.IOException;
 
@@ -27,10 +29,18 @@ public class ControllerNetworkFacade {
 
     /***
      * Tells server that we moved.
-     * @param oldPos Position that we moved from, [x, y].
-     * @param newPos Position that we moved to, [x, y].
+     * @param oldP Position that we moved from, [x, y].
+     * @param newP Position that we moved to, [x, y].
      */
-    public static void moved(int[] oldPos, int[] newPos) {
+    public static void moved(PiecePosition oldP, PiecePosition newP) {
+        int[] oldPos = new int[2];
+        int[] newPos = new int[2];
+
+        oldPos[0] = oldP.getCol();
+        oldPos[1] = oldP.getRow();
+        newPos[0] = newP.getCol();
+        newPos[1] = newP.getRow();
+
         JsonObject jsonObject = new JsonObject();
         JsonArray jsonArray = new JsonArray();
 

@@ -8,6 +8,7 @@ import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ public class ChineseCheckersApplication extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/" + name + ".fxml"));
         try {
             Parent root = loader.load();
-            sceneController.addScene(name, new Scene(root, 800, 600));
+            sceneController.addScene(name, new Scene(root, 800, 600), loader.getController());
             AbstractController controller = loader.getController();
             controller.setSceneController(sceneController);
         } catch (LoadException e) {

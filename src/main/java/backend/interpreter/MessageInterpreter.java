@@ -6,8 +6,13 @@ import backend.socketing.Server;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import frontend.controllers.Game;
 import model.exceptions.CannotAddPlayerException;
+import model.exceptions.MoveNotAllowedException;
+import model.exceptions.NoSuchPlayerException;
+import model.player.Piece;
+import model.player.PiecePosition;
 import model.player.Player;
 
 import java.util.ArrayList;
@@ -56,11 +61,39 @@ public class MessageInterpreter {
                 break;
             }
             case "move": {
+                JsonArray arr = new JsonParser().parse(message).getAsJsonObject().get("content").getAsJsonArray();
+                int from = new JsonParser().parse(message).getAsJsonObject().get("from").getAsInt();
+
+                int[] moveOld = new int[2];
+                int[] moveNew = new int[2];
+
+                moveOld[0] = arr.get(0).getAsJsonArray().get(0).getAsInt();
+                moveOld[1] = arr.get(0).getAsJsonArray().get(1).getAsInt();
+
+                moveNew[0] = arr.get(1).getAsJsonArray().get(0).getAsInt();
+                moveNew[1] = arr.get(1).getAsJsonArray().get(1).getAsInt();
+
+                try {
+                    Piece piece = GameSingleton.getGame().getPlayerById(from).getArmy().getPieceByPosition(new PiecePosition(moveOld[0], moveOld[1]));
+                    GameSingleton.getGame().getBoardMovementInterface().makeMove(piece, new PiecePosition(moveNew[0], moveNew[1]));
+
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("type", "make-move");
+                    jsonObject.add("content", new JsonParser().parse(message).getAsJsonObject().get("content").getAsJsonArray());
+                    jsonObject.addProperty("to", "all");
+
+                    MessageQueueSingleton.getMessages().add(jsonObject.toString());
+                } catch (NoSuchPlayerException e) {
+                    e.printStackTrace();
+                } catch (MoveNotAllowedException e) {
+                    //todo add WRONG MOVE here
+                    e.printStackTrace();
+                }
                 //content - [[int, int], [int, int]] ([oldPosition, newPosition])
                 break;
             }
             case "ready": {
-                String from = new JsonParser().parse(message).getAsJsonObject().get("from").getAsString();
+                int from = new JsonParser().parse(message).getAsJsonObject().get("from").getAsInt();
 
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("type", "ready");
@@ -68,13 +101,21 @@ public class MessageInterpreter {
                 jsonObject.addProperty("to", "all");
 
                 MessageQueueSingleton.getMessages().add(jsonObject.toString());
-                if (GameSingleton.readyPlayer()) {
+                if (GameSingleton.readyPlayer(from)) {
                     JsonObject start = new JsonObject();
                     start.addProperty("type", "start-game");
                     start.addProperty("content", "");
                     start.addProperty("to", "all");
 
+                    GameSingleton.getGame().setTurn(1);
+
+                    JsonObject turn = new JsonObject();
+                    turn.addProperty("type", "next-turn");
+                    turn.addProperty("content", 1);
+                    turn.addProperty("to", "all");
+
                     MessageQueueSingleton.getMessages().add(start.toString());
+                    MessageQueueSingleton.getMessages().add(turn.toString());
                 }
                 break;
             }

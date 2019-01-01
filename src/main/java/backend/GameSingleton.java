@@ -4,6 +4,12 @@ import model.board.BoardMovementInterface;
 import model.game.AbstractGame;
 import model.game.BasicGame;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 /***
  * Hold synchronized game instance for all threads.
  * Isn't really used by all threads tho, but whatever.
@@ -12,12 +18,12 @@ public class GameSingleton {
     private static BoardMovementInterface boardMovementInterface;
     private static int limit;
     private static AbstractGame game;
-    private static int readiedPlayers;
+    private static Set<Integer> readiedPlayers;
 
     public GameSingleton(BoardMovementInterface boardMovementInterface, int limit) {
         GameSingleton.boardMovementInterface = boardMovementInterface;
         GameSingleton.limit = limit;
-        readiedPlayers = 0;
+        readiedPlayers = new HashSet<>();
     }
 
     public static AbstractGame getGame() {
@@ -31,7 +37,8 @@ public class GameSingleton {
         return game;
     }
 
-    public static boolean readyPlayer() {
-        return ++GameSingleton.readiedPlayers == limit;
+    public static boolean readyPlayer(int id) {
+        readiedPlayers.add(id);
+        return readiedPlayers.size() == limit;
     }
 }

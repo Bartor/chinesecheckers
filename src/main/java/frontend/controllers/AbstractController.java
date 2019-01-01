@@ -1,5 +1,6 @@
 package frontend.controllers;
 
+import frontend.networking.MessageInterpreter;
 import frontend.util.ControllerNetworkFacade;
 import frontend.util.SceneController;
 import javafx.scene.control.Alert;
@@ -22,6 +23,8 @@ public abstract class AbstractController {
         alert.setTitle("Error");
         alert.show();
     }
+
+    public abstract void onSwitch();
 
     public static AbstractGame getGame() {
         return game;

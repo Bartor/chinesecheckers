@@ -32,6 +32,9 @@ public class Start extends AbstractController {
     @FXML
     JFXTextField adress;
 
+    @Override
+    public void onSwitch() { }
+
     @FXML
     public void initialize() {
         game = new BasicGame(new BasicBoardMovement(new BasicBoard()), 6);

@@ -19,10 +19,14 @@ public class Pregame extends AbstractController {
     @FXML
     JFXButton readyButton;
 
+    @Override
+    public void onSwitch() {
+        MessageInterpreter.spawnFacade(this);
+    }
+
     @FXML
     public void initialize() {
         MessageInterpreter.spawnFacade(this);
-
         readyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -32,17 +36,18 @@ public class Pregame extends AbstractController {
     }
 
     public void addPlayer(String nick, int id) {
-        VBox playerBox = new VBox();
+        HBox playerBox = new HBox();
         playerBox.setAlignment(Pos.CENTER);
 
-        HBox nickIdBox = new HBox();
+        VBox nickIdBox = new VBox();
+        nickIdBox.setAlignment(Pos.CENTER);
 
         Text playerNick = new Text(nick);
-        Text playerId = new Text(String.valueOf(id));
+        Text playerId = new Text("id: " + id);
         playerId.setStyle("-fx-font-size: 10px");
 
-        nickIdBox.getChildren().add(playerNick);
         nickIdBox.getChildren().add(playerId);
+        nickIdBox.getChildren().add(playerNick);
 
         Text readyState = new Text("not ready");
         readyState.setId(String.valueOf(id));

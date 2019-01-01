@@ -1,9 +1,12 @@
 package frontend.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.sun.org.glassfish.gmbal.GmbalException;
 import frontend.networking.MessageInterpreter;
 import frontend.util.BoardField;
+import frontend.util.ControllerNetworkFacade;
 import frontend.util.TurnState;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,9 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends AbstractController {
-
-    //TODO MAKE THIS USABLE FOR FACADE
-
     private List<BoardField> fields = new ArrayList<>();
     private List<BoardField> availableMoves = new ArrayList<>();
     private BoardField chosen;
@@ -34,22 +34,16 @@ public class Game extends AbstractController {
     @FXML
     Label player;
 
-    @FXML
-    JFXButton map;
+    @Override
+    public void onSwitch() {
+        MessageInterpreter.spawnFacade(this);
+        Platform.runLater(() -> {
+            renderFields();
+        });
+    }
 
     @FXML
     public void initialize() {
-        MessageInterpreter.spawnFacade(this);
-
-
-        //todo delete this, debug purposes only
-        state = TurnState.YOUR_TURN;
-        map.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                System.out.println("Loading fields");
-                renderFields();
-            }
-        });
     }
 
     private void renderFields() {
@@ -87,6 +81,9 @@ public class Game extends AbstractController {
                     if (boardFields[i][j] > 0 && boardFields[i][j] < 7) {
                         try {
                             Player tempPlayer = game.getPlayerById(boardFields[i][j]);
+
+                            //TODO MAKE SOMETHING SPAWN THE REST OF THE PLAYERS BEFORE RENDERINGS
+
                             button.setPosition(pos);
                             button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
                             switch (boardFields[i][j]) {
@@ -123,39 +120,41 @@ public class Game extends AbstractController {
             }
             boardBox.getChildren().add(hbox);
         }
-        //todo remove this afterwards
-        nextTurn();
     }
 
     public void nextTurn() {
-        try {
-            player.setText(game.getPlayerById(game.getTurn()).getName());
-        } catch (NoSuchPlayerException e) {
-            showAlert(e.getMessage());
-        }
-        if (game.getTurn() == thisPlayer.getId()) {
-            state = TurnState.YOUR_TURN;
-            for (BoardField field : fields) {
-                if (field.getPiece() != null && field.getPiece().getId() == thisPlayer.getId()) {
-                    field.setDisable(false);
-                } else {
-                    field.setDisable(true);
+        Platform.runLater(() -> {
+            try {
+                player.setText(game.getPlayerById(game.getTurn()).getName());
+            } catch (NoSuchPlayerException e) {
+                System.out.println("d");
+                showAlert(e.getMessage());
+            }
+            if (game.getTurn() == thisPlayer.getId()) {
+                state = TurnState.YOUR_TURN;
+                for (BoardField field : fields) {
+                    if (field.getPiece() != null && field.getPiece().getId() == thisPlayer.getId()) {
+                        field.setDisable(false);
+                    } else {
+                        field.setDisable(true);
+                    }
                 }
             }
-        }
+        });
     }
 
     private void move(BoardField origin, BoardField target) {
-        try {
-            game.getBoardMovementInterface().makeMove(origin.getPiece(), target.getPosition());
-        } catch (MoveNotAllowedException e) {
-            showAlert(e.getMessage());
-            return;
-        }
-        //we just re-render fields
-        renderFields();
-        //and proceed to next turn
-        nextTurn();
+        Platform.runLater(() -> {
+            try {
+                game.getBoardMovementInterface().makeMove(origin.getPiece(), target.getPosition());
+                ControllerNetworkFacade.moved(origin.getPosition(), target.getPosition());
+            } catch (MoveNotAllowedException e) {
+                showAlert(e.getMessage());
+                return;
+            }
+            //we just re-render fields
+            renderFields();
+        });
     }
 
     private void choose(BoardField field) {
