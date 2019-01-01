@@ -64,6 +64,7 @@ public class Start extends AbstractController {
                     showAlert("Couldn't connect to host");
                     e.printStackTrace();
                 }
+                thisPlayer = new Player(nick.getText());
                 try {
                     while (game.getBoardMovementInterface().getBoard().getPositions() == null) {
                         //fix this later

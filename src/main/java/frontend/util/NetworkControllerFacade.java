@@ -73,12 +73,28 @@ public class NetworkControllerFacade {
      * @param id Player's id.
      */
     public void addPlayer(String nick, int id) {
+        System.out.println("Adding a new player: " + nick + " id: " + id);
         if (controller.getClass() == Pregame.class) {
+            System.out.println("Us: " + AbstractController.getThisPlayer().getName());
+            if (nick.equals(AbstractController.getThisPlayer().getName())) {
+                AbstractController.getThisPlayer().setId(id);
+                System.out.println("Id set to: " + AbstractController.getThisPlayer().getId());
+                AbstractController.getGame().createArmy(AbstractController.getThisPlayer());
+                try {
+                    AbstractController.getGame().addPlayerWithId(AbstractController.getThisPlayer());
+                } catch (CannotAddPlayerException e) {
+                    controller.showAlert(e.getMessage());
+                    e.printStackTrace();
+                }
+                ((Pregame) controller).addPlayer(nick, id);
+                return;
+            }
+
             Player player = new Player(nick);
             player.setId(id);
             AbstractController.getGame().createArmy(player);
             try {
-                AbstractController.getGame().addPlayer(player);
+                AbstractController.getGame().addPlayerWithId(player);
             } catch (CannotAddPlayerException e) {
                 controller.showAlert(e.getMessage());
                 e.printStackTrace();

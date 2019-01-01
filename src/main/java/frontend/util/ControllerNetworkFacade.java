@@ -2,6 +2,7 @@ package frontend.util;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import frontend.controllers.AbstractController;
 import frontend.networking.Client;
 import frontend.networking.MessageInterpreter;
 
@@ -19,7 +20,7 @@ public class ControllerNetworkFacade {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "ready");
         jsonObject.addProperty("content", "");
-        jsonObject.addProperty("from", "ID"); //todo put id there somehow
+        jsonObject.addProperty("from", AbstractController.getThisPlayer().getId()); //todo put id there somehow
 
         MessageInterpreter.getMessageQueue().add(jsonObject.toString());
     }
@@ -46,6 +47,7 @@ public class ControllerNetworkFacade {
 
         jsonObject.addProperty("type", "move");
         jsonObject.addProperty("content", jsonArray.toString());
+        jsonObject.addProperty("from", AbstractController.getThisPlayer().getId());
 
         MessageInterpreter.getMessageQueue().add(jsonObject.toString());
     }

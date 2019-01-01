@@ -59,7 +59,8 @@ public class Pregame extends AbstractController {
     public void readyPlayer(int id) {
         Platform.runLater(() -> {
             try {
-                ((Text) sceneController.getScene("pregame").lookup(String.valueOf(id))).setText("ready");
+                ((Text) sceneController.getScene("pregame").lookup("#" + id)).setText("ready");
+                if (id == thisPlayer.getId()) readyButton.setDisable(true);
             } catch (Exception e) {
                 showAlert(e.getMessage());
                 e.printStackTrace();

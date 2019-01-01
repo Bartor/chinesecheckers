@@ -26,4 +26,8 @@ public abstract class AbstractController {
     public static AbstractGame getGame() {
         return game;
     }
+
+    public static Player getThisPlayer() {
+        return thisPlayer;
+    }
 }

@@ -42,7 +42,7 @@ public class MessageInterpreter {
                 break;
             }
             case "new-client": {
-                String nick = new JsonParser().parse(message).getAsJsonObject().get("content").getAsJsonArray().get(0).toString();
+                String nick = new JsonParser().parse(message).getAsJsonObject().get("content").getAsJsonArray().get(0).getAsString();
                 int id = new JsonParser().parse(message).getAsJsonObject().get("content").getAsJsonArray().get(1).getAsInt();
 
                 controllerFacade.addPlayer(nick, id);
