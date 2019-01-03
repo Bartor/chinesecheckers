@@ -36,10 +36,10 @@ public class ControllerNetworkFacade {
         int[] oldPos = new int[2];
         int[] newPos = new int[2];
 
-        oldPos[0] = oldP.getCol();
-        oldPos[1] = oldP.getRow();
-        newPos[0] = newP.getCol();
-        newPos[1] = newP.getRow();
+        oldPos[0] = oldP.getRow();
+        oldPos[1] = oldP.getCol();
+        newPos[0] = newP.getRow();
+        newPos[1] = newP.getCol();
 
         JsonObject jsonObject = new JsonObject();
         JsonArray jsonArray = new JsonArray();
@@ -56,7 +56,7 @@ public class ControllerNetworkFacade {
         jsonArray.add(newp);
 
         jsonObject.addProperty("type", "move");
-        jsonObject.addProperty("content", jsonArray.toString());
+        jsonObject.add("content", jsonArray);
         jsonObject.addProperty("from", AbstractController.getThisPlayer().getId());
 
         MessageInterpreter.getMessageQueue().add(jsonObject.toString());

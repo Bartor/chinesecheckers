@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.exceptions.MoveNotAllowedException;
+import model.exceptions.NoSuchPieceException;
 import model.exceptions.NoSuchPlayerException;
 import model.player.PiecePosition;
 import model.player.Player;
@@ -46,80 +47,86 @@ public class Game extends AbstractController {
     public void initialize() {
     }
 
-    private void renderFields() {
-        boardBox.getChildren().clear();
-        int[][] boardFields = game.getBoardMovementInterface().getBoard().getPositions();
-        for (int i = 0; i < boardFields.length; i++) {
-            HBox hbox = new HBox();
-            hbox.setAlignment(Pos.CENTER);
-            for (int j = 0; j < boardFields[i].length; j++) {
-                final BoardField button = new BoardField("white");
-                button.setOnAction(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent event) {
-                        System.out.println("handled");
-                        switch (state) {
-                            case YOUR_TURN:
-                                System.out.println("your-turn");
-                                choose(button);
-                                chosen = button;
-                                break;
-                            case PIECE_CHOSEN:
-                                System.out.println("piece-chosen");
-                                move(chosen, button);
-                                break;
-                        }
-                    }
-                });
-                button.setDisable(true);
-                if (boardFields[i][j] == 0) {
-                    button.setPosition(new PiecePosition(i, j));
-                    hbox.getChildren().add(button);
-                    fields.add(button);
-                } else {
-                    PiecePosition pos = new PiecePosition(i, j);
-                    boolean n = false;
-                    if (boardFields[i][j] > 0 && boardFields[i][j] < 7) {
-                        try {
-                            Player tempPlayer = game.getPlayerById(boardFields[i][j]);
-
-                            //TODO MAKE SOMETHING SPAWN THE REST OF THE PLAYERS BEFORE RENDERINGS
-
-                            button.setPosition(pos);
-                            button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
-                            switch (boardFields[i][j]) {
-                                case 1:
-                                    button.setStyle("-fx-color: blue");
+    public void renderFields() {
+        Platform.runLater(() -> {
+            System.out.println("RENDERING FIELDS...");
+            boardBox.getChildren().clear();
+            int[][] boardFields = game.getBoardMovementInterface().getBoard().getPositions();
+            for (int i = 0; i < boardFields.length; i++) {
+                HBox hbox = new HBox();
+                hbox.setAlignment(Pos.CENTER);
+                for (int j = 0; j < boardFields[i].length; j++) {
+                    final BoardField button = new BoardField("white");
+                    button.setOnAction(new EventHandler<ActionEvent>() {
+                        public void handle(ActionEvent event) {
+                            System.out.println("handled");
+                            switch (state) {
+                                case YOUR_TURN:
+                                    System.out.println("your-turn");
+                                    choose(button);
+                                    chosen = button;
                                     break;
-                                case 2:
-                                    button.setStyle("-fx-color: yellow");
-                                    break;
-                                case 3:
-                                    button.setStyle("-fx-color: red");
-                                    break;
-                                case 4:
-                                    button.setStyle("-fx-color: green");
-                                    break;
-                                case 5:
-                                    button.setStyle("-fx-color: purple");
-                                    break;
-                                case 6:
-                                    button.setStyle("-fx-color: orange");
+                                case PIECE_CHOSEN:
+                                    System.out.println("piece-chosen");
+                                    move(chosen, button);
                                     break;
                             }
-                        } catch (NoSuchPlayerException e) {
-                            showAlert(e.getMessage());
                         }
-                    } else {
-                        n = true;
-                    }
-                    if (!n) {
-                        fields.add(button);
+                    });
+                    button.setDisable(true);
+                    if (boardFields[i][j] == 0) {
+                        button.setPosition(new PiecePosition(i, j));
                         hbox.getChildren().add(button);
+                        fields.add(button);
+                    } else {
+                        PiecePosition pos = new PiecePosition(i, j);
+                        button.setPosition(pos);
+                        boolean n = false;
+                        if (boardFields[i][j] > 0 && boardFields[i][j] < 7) {
+                            try {
+                                Player tempPlayer = game.getPlayerById(boardFields[i][j]);
+
+                                try {
+                                    button.setPiece(tempPlayer.getArmy().getPieceByPosition(pos));
+                                } catch (NoSuchPieceException e) {
+                                    showAlert(e.getMessage());
+                                }
+                                switch (boardFields[i][j]) {
+                                    case 1:
+                                        button.setStyle("-fx-color: blue");
+                                        break;
+                                    case 2:
+                                        button.setStyle("-fx-color: yellow");
+                                        break;
+                                    case 3:
+                                        button.setStyle("-fx-color: red");
+                                        break;
+                                    case 4:
+                                        button.setStyle("-fx-color: green");
+                                        break;
+                                    case 5:
+                                        button.setStyle("-fx-color: purple");
+                                        break;
+                                    case 6:
+                                        button.setStyle("-fx-color: orange");
+                                        break;
+                                }
+                            } catch (NoSuchPlayerException e) {
+                                //let's just ignore this tbh
+                                //showAlert(e.getMessage());
+                            }
+                        } else {
+                            n = true;
+                        }
+                        if (!n) {
+                            fields.add(button);
+                            hbox.getChildren().add(button);
+                        }
                     }
                 }
+                boardBox.getChildren().add(hbox);
             }
-            boardBox.getChildren().add(hbox);
-        }
+        });
     }
 
     public void nextTurn() {

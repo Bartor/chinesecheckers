@@ -10,6 +10,7 @@ import com.google.gson.JsonPrimitive;
 import frontend.controllers.Game;
 import model.exceptions.CannotAddPlayerException;
 import model.exceptions.MoveNotAllowedException;
+import model.exceptions.NoSuchPieceException;
 import model.exceptions.NoSuchPlayerException;
 import model.player.Piece;
 import model.player.PiecePosition;
@@ -74,7 +75,14 @@ public class MessageInterpreter {
                 moveNew[1] = arr.get(1).getAsJsonArray().get(1).getAsInt();
 
                 try {
-                    Piece piece = GameSingleton.getGame().getPlayerById(from).getArmy().getPieceByPosition(new PiecePosition(moveOld[0], moveOld[1]));
+                    Piece piece;
+                    try {
+                        System.out.println("Trying to move from " + moveOld[0] + ", " + moveOld[1] + " by player " + from);
+                        piece = GameSingleton.getGame().getPlayerById(from).getArmy().getPieceByPosition(new PiecePosition(moveOld[0], moveOld[1]));
+                    } catch (NoSuchPieceException e) {
+                        e.printStackTrace();
+                        return;
+                    }
                     GameSingleton.getGame().getBoardMovementInterface().makeMove(piece, new PiecePosition(moveNew[0], moveNew[1]));
 
                     JsonObject jsonObject = new JsonObject();
@@ -89,7 +97,13 @@ public class MessageInterpreter {
                     //todo add WRONG MOVE here
                     e.printStackTrace();
                 }
-                //content - [[int, int], [int, int]] ([oldPosition, newPosition])
+
+
+                //TODO ADD NEXT TURN HERE
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("type", "next-turn");
+                jsonObject.addProperty("content", 234234);
+
                 break;
             }
             case "ready": {

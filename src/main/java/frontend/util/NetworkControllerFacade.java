@@ -3,10 +3,7 @@ package frontend.util;
 import frontend.controllers.AbstractController;
 import frontend.controllers.Game;
 import frontend.controllers.Pregame;
-import model.exceptions.CannotAddPlayerException;
-import model.exceptions.CorruptedFileException;
-import model.exceptions.MoveNotAllowedException;
-import model.exceptions.NoSuchPlayerException;
+import model.exceptions.*;
 import model.player.Piece;
 import model.player.PiecePosition;
 import model.player.Player;
@@ -47,9 +44,13 @@ public class NetworkControllerFacade {
             } catch (NoSuchPlayerException e) {
                 controller.showAlert(e.getMessage());
                 return;
+            } catch (NoSuchPieceException e) {
+                controller.showAlert(e.getMessage());
+                return;
             }
             try {
                 AbstractController.getGame().getBoardMovementInterface().makeMove(piece, new PiecePosition(newPos[0], newPos[1]));
+                ((Game) controller).renderFields();
             } catch (MoveNotAllowedException e) {
                 controller.showAlert(e.getMessage());
             }
