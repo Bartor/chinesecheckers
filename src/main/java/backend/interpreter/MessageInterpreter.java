@@ -97,7 +97,9 @@ public class MessageInterpreter {
                     //todo add WRONG MOVE here
                     e.printStackTrace();
                 }
-                //TODO ADD NEXT TURN HERE
+
+                //TODO ADD CHECKING IF SOMEONE WON AFTER THIS MOVE and adding a msg to queue about it
+
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("type", "next-turn");
                 switch(GameSingleton.getGame().getLimit()){
