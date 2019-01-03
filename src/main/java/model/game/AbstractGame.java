@@ -66,4 +66,8 @@ public abstract class AbstractGame {
     abstract public void createArmy(Player player);
 
     abstract public boolean hasWon(Player player);
+
+    public List<Player> getPlayers() {
+        return players;
+    }
 }

@@ -1,5 +1,7 @@
 package model.player;
 
+import model.exceptions.NoSuchPieceException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +16,14 @@ public class Army {
         }
     }
 
-    public Piece getPieceByPosition(PiecePosition position) {
+    public Piece getPieceByPosition(PiecePosition position) throws NoSuchPieceException {
         for (Piece piece : this.pieces) {
             if (piece.getPosition().equals(position)) return piece;
         }
-        return null;
+        throw new NoSuchPieceException("There is no such piece");
     }
 
-    void setId(int id) {
+    public void setId(int id) {
         this.id = id;
         for (Piece piece : this.pieces) {
             piece.setId(id);

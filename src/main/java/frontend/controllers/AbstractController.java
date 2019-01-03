@@ -3,6 +3,7 @@ package frontend.controllers;
 import frontend.networking.MessageInterpreter;
 import frontend.util.ControllerNetworkFacade;
 import frontend.util.SceneController;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import model.game.AbstractGame;
 import model.player.Player;
@@ -18,10 +19,12 @@ public abstract class AbstractController {
     }
 
     public void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(message);
-        alert.setTitle("Error");
-        alert.show();
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(message);
+            alert.setTitle("Error");
+            alert.show();
+        });
     }
 
     public abstract void onSwitch();

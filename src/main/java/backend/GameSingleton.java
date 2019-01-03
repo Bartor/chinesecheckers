@@ -38,6 +38,7 @@ public class GameSingleton {
     }
 
     public static boolean readyPlayer(int id) {
+        System.out.println(readiedPlayers.size() + " " + limit);
         readiedPlayers.add(id);
         return readiedPlayers.size() == limit;
     }

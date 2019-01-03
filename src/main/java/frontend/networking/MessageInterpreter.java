@@ -54,7 +54,7 @@ public class MessageInterpreter {
                 controllerFacade.ready(id);
                 break;
             }
-            case "move": //bad idea?
+            case "make-move": //bad idea?
             case "wrong-move": {
                 if (type.equals("wrong-move")) {
                     controllerFacade.alert("Your move was illegal; rolling back");
