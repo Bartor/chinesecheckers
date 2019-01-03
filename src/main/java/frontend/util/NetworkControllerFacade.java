@@ -45,7 +45,7 @@ public class NetworkControllerFacade {
                 controller.showAlert(e.getMessage());
                 return;
             } catch (NoSuchPieceException e) {
-                controller.showAlert(e.getMessage());
+                //controller.showAlert(e.getMessage());
                 return;
             }
             try {

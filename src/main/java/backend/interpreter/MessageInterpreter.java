@@ -97,12 +97,58 @@ public class MessageInterpreter {
                     //todo add WRONG MOVE here
                     e.printStackTrace();
                 }
-
-
                 //TODO ADD NEXT TURN HERE
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("type", "next-turn");
-                jsonObject.addProperty("content", 234234);
+                switch(GameSingleton.getGame().getLimit()){
+                    case 2:{
+                        switch (from){
+                            case 1: {
+                                jsonObject.addProperty("content", 4);
+                                GameSingleton.getGame().setTurn(4);
+                                break;
+                            }
+                            case 4: {
+                                jsonObject.addProperty("content", 1);
+                                GameSingleton.getGame().setTurn(1);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    case 4:{
+                        switch (from){
+                            case 1:{
+                                jsonObject.addProperty("content", 2);
+                                GameSingleton.getGame().setTurn(2);
+                                break;
+                            }
+                            case 2:{
+                                jsonObject.addProperty("content", 4);
+                                GameSingleton.getGame().setTurn(4);
+                                break;
+                            }
+                            case 4: {
+                                jsonObject.addProperty("content", 5);
+                                GameSingleton.getGame().setTurn(5);
+                                break;
+                            }
+                            case 5: {
+                                jsonObject.addProperty("content", 1);
+                                GameSingleton.getGame().setTurn(1);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    case 6: {
+                        jsonObject.addProperty("content", from%6+1);
+                        break;
+                    }
+                }
+                jsonObject.addProperty("to", "all");
+                MessageQueueSingleton.getMessages().add(jsonObject.toString());
+                //jsonObject.addProperty("content", 234234);
 
                 break;
             }
