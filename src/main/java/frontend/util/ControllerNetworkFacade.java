@@ -22,7 +22,7 @@ public class ControllerNetworkFacade {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "ready");
         jsonObject.addProperty("content", "");
-        jsonObject.addProperty("from", AbstractController.getThisPlayer().getId()); //todo put id there somehow
+        jsonObject.addProperty("from", AbstractController.getThisPlayer().getId());
 
         MessageInterpreter.getMessageQueue().add(jsonObject.toString());
     }
