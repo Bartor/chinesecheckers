@@ -43,13 +43,8 @@ public class ServerClient extends Thread {
                 message = br.readLine(); //when first started, waits for client to send his nickname
                 System.out.println("Reading" + message);
                 MessageInterpreter.interpret(message);
-                for (String msg : MessageQueueSingleton.getMessages()) {
-                    if (!sent.contains(msg) && !toSend.contains(msg)) {
-                        String to = new JsonParser().parse(msg).getAsJsonObject().get("to").getAsString();
-                        if (to.equals("all") || to.equals(String.valueOf(id))) {
-                            toSend.add(msg);
-                        }
-                    }
+                for (int i = sent.size() + toSend.size(); i < MessageQueueSingleton.getMessages().size(); i++) {
+                    toSend.add(MessageQueueSingleton.getMessages().get(i));
                 }
                 if (toSend.size() == 0) {
                     JsonObject jsonObject = new JsonObject();
@@ -59,6 +54,12 @@ public class ServerClient extends Thread {
                     System.out.println("NO CHANGES");
                     pr.println(jsonObject.toString());
                 } else {
+                    String to = new JsonParser().parse(toSend.get(0)).getAsJsonObject().get("to").getAsString();
+
+                    while (!to.equals("all") && !to.equals(String.valueOf(id))) {
+                        sent.add(toSend.remove(0));
+                        to = new JsonParser().parse(toSend.get(0)).getAsJsonObject().get("to").getAsString();
+                    }
                     System.out.println("Sending " + toSend.get(0));
                     pr.println(toSend.get(0));
                     sent.add(toSend.remove(0));
