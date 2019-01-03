@@ -1,9 +1,11 @@
 package frontend.networking;
+import backend.GameSingleton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import frontend.controllers.AbstractController;
 import frontend.util.NetworkControllerFacade;
+import model.exceptions.NoSuchPlayerException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +92,15 @@ public class MessageInterpreter {
             }
             case "bad-request": {
                 controllerFacade.alert("Bad Request");
+                break;
+            }
+            case "won": {
+                try {
+                    String winner = GameSingleton.getGame().getPlayerById(new JsonParser().parse(message).getAsJsonObject().get("content").getAsInt()).getName();
+                    controllerFacade.alert("Player " + winner + " has won!");
+                } catch (NoSuchPlayerException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
             default: {

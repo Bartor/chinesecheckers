@@ -18,9 +18,9 @@ public class BasicGame extends AbstractGame {
 
     @Override
     public boolean hasWon(Player player) {
-        /*for (Piece piece : player.getArmy().getPieces()) {
+        for (Piece piece : player.getArmy().getPieces()) {
             if (!this.boardMovementInterface.onWinZone(piece)) return false;
-        }*/
+        }
         return true;
     }
 
