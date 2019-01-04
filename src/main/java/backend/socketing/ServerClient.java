@@ -1,6 +1,7 @@
 package backend.socketing;
 
 import backend.interpreter.MessageInterpreter;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -51,8 +52,11 @@ public class ServerClient extends Thread {
                     jsonObject.addProperty("type", "no-changes");
                     jsonObject.addProperty("content", "");
                     jsonObject.addProperty("to", "");
+
+                    JsonArray a = new JsonArray();
+                    a.add(jsonObject.toString());
                     System.out.println("NO CHANGES");
-                    pr.println(jsonObject.toString());
+                    pr.println(a.toString());
                 } else {
                     String to = new JsonParser().parse(toSend.get(0)).getAsJsonObject().get("to").getAsString();
 
@@ -60,9 +64,14 @@ public class ServerClient extends Thread {
                         sent.add(toSend.remove(0));
                         to = new JsonParser().parse(toSend.get(0)).getAsJsonObject().get("to").getAsString();
                     }
-                    System.out.println("Sending " + toSend.get(0));
-                    pr.println(toSend.get(0));
-                    sent.add(toSend.remove(0));
+
+                    JsonArray arr = new JsonArray();
+                    for (String s : toSend) arr.add(s);
+
+                    System.out.println("Sending " + arr.toString());
+                    pr.println(arr.toString());
+                    sent.addAll(toSend);
+                    toSend.clear();
                 }
                 pr.flush();
             } catch (IOException e) {

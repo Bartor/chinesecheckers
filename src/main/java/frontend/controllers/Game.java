@@ -126,28 +126,26 @@ public class Game extends AbstractController {
                 }
                 boardBox.getChildren().add(hbox);
             }
+            nextTurn();
         });
     }
 
     public void nextTurn() {
-        Platform.runLater(() -> {
-            try {
-                player.setText(game.getPlayerById(game.getTurn()).getName());
-            } catch (NoSuchPlayerException e) {
-                System.out.println("d");
-                showAlert(e.getMessage());
-            }
-            if (game.getTurn() == thisPlayer.getId()) {
-                state = TurnState.YOUR_TURN;
-                for (BoardField field : fields) {
-                    if (field.getPiece() != null && field.getPiece().getId() == thisPlayer.getId()) {
-                        field.setDisable(false);
-                    } else {
-                        field.setDisable(true);
-                    }
+        try {
+            player.setText(game.getPlayerById(game.getTurn()).getName());
+        } catch (NoSuchPlayerException e) {
+            showAlert(e.getMessage());
+        }
+        if (game.getTurn() == thisPlayer.getId()) {
+            state = TurnState.YOUR_TURN;
+            for (BoardField field : fields) {
+                if (field.getPiece() != null && field.getPiece().getId() == thisPlayer.getId()) {
+                    field.setDisable(false);
+                } else {
+                    field.setDisable(true);
                 }
             }
-        });
+        }
     }
 
     private void move(BoardField origin, BoardField target) {

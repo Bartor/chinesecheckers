@@ -64,7 +64,7 @@ public class NetworkControllerFacade {
     public void nextTurn(int id) {
         AbstractController.getGame().setTurn(id);
         if (controller.getClass() == Game.class) {
-            ((Game) controller).nextTurn();
+            ((Game) controller).renderFields();
         }
     }
 
