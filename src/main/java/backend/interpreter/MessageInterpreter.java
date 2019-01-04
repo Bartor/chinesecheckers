@@ -101,7 +101,7 @@ public class MessageInterpreter {
                 //CHECKING IF SOMEONE WON AFTER THIS MOVE and adding a msg to queue about it
 
                 for(Player player : GameSingleton.getGame().getPlayers() ){
-                    if(GameSingleton.getGame().hasWon(player)){
+                    if(GameSingleton.getGame().hasWon(player) && !GameSingleton.getWinners().contains(player)){
                         JsonObject jsonObject = new JsonObject();
                         jsonObject.addProperty("type", "won");
                         jsonObject.addProperty("content", from);
@@ -113,6 +113,14 @@ public class MessageInterpreter {
                         }
                         MessageQueueSingleton.getMessages().add(jsonObject.toString());
                     }
+                }
+
+                if(GameSingleton.getWinners().size()==GameSingleton.getGame().getLimit()-1){
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("type","end");
+                    jsonObject.addProperty("content","");
+                    jsonObject.addProperty("to", "all");
+                    MessageQueueSingleton.getMessages().add(jsonObject.toString());
                 }
 
                 JsonObject jsonObject = new JsonObject();
@@ -168,20 +176,21 @@ public class MessageInterpreter {
 
                 //when some players already won, the rest can continue
                 //we have to skip players that won
+                int turn = GameSingleton.getGame().getTurn();
                 try {
-                    int turn = GameSingleton.getGame().getTurn();
-                    //probably correct
-                    while (GameSingleton.getWinners().contains(GameSingleton.getGame().getPlayerById(turn)) ||
+                    if(GameSingleton.getWinners().contains(GameSingleton.getGame().getPlayerById(turn))) {
+                        //probably correct
+                        while (GameSingleton.getWinners().contains(GameSingleton.getGame().getPlayerById(turn)) ||
                                 !GameSingleton.getGame().getPlayers().contains(GameSingleton.getGame().getPlayerById(turn))) {
-                        turn = turn % 6 + 1;
+                            turn = turn % 6 + 1;
+                        }
+                        GameSingleton.getGame().setTurn(turn);
+                        jsonObject = new JsonObject();
+                        jsonObject.addProperty("type", "next-turn");
+                        jsonObject.addProperty("content", turn);
+                        jsonObject.addProperty("to", "all");
+                        MessageQueueSingleton.getMessages().add(jsonObject.toString());
                     }
-                    GameSingleton.getGame().setTurn(turn);
-                    jsonObject = new JsonObject();
-                    jsonObject.addProperty("type", "next-turn");
-                    jsonObject.addProperty("content", turn);
-                    jsonObject.addProperty("to", "all");
-                    MessageQueueSingleton.getMessages().add(jsonObject.toString());
-
                 } catch (NoSuchPlayerException e) {
                     e.printStackTrace();
                 }

@@ -103,6 +103,10 @@ public class MessageInterpreter {
                 }
                 break;
             }
+            case "end": {
+                controllerFacade.alert("Game finished");
+                break;
+            }
             default: {
                 System.out.println("Malformed server response: " + type);
                 break;
