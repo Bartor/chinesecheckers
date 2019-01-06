@@ -19,16 +19,37 @@ public class BasicBoardMovementTest {
     @Test
     public void testOnWinZone() throws CorruptedFileException {
             BasicBoardMovement testBoardMovement = createBasicBMovementUnderTest();
-            Piece piece1 = new Piece(new PiecePosition(0,3));
-            piece1.setId(4);
-            Piece piece2 = new Piece(new PiecePosition(3,3));
+            Piece piece1 = new Piece(new PiecePosition(0,6));
+            piece1.setId(1);
+            Piece piece2 = new Piece(new PiecePosition(5,1));
             piece2.setId(4);
-            Piece piece3 = new Piece(new PiecePosition(0,3));
+            Piece piece3 = new Piece(new PiecePosition(10,1));
             piece3.setId(2);
-            Assert.assertTrue(testBoardMovement.onWinZone(piece1));
+            Assert.assertTrue(!testBoardMovement.onWinZone(piece1));
             Assert.assertTrue(!testBoardMovement.onWinZone(piece2));
-            Assert.assertTrue(!testBoardMovement.onWinZone(piece3));
+            Assert.assertTrue(testBoardMovement.onWinZone(piece3));
+    }
 
+    @Test
+    public void getMovesTest1() throws CorruptedFileException {
+        BasicBoardMovement board = createBasicBMovementUnderTest();
+        Piece testPiece = new Piece(new PiecePosition(2,6));
+        Piece testPiece2 = new Piece(new PiecePosition(3,5));
+       // board.getMoves(testPiece);
+        Assert.assertEquals(2, board.getMoves(testPiece).length );
+        Assert.assertEquals(2, board.getMoves(testPiece2).length);
+    }
+    @Test
+    public void getMovesTest2() throws CorruptedFileException {
+        BasicBoardMovement board = createBasicBMovementUnderTest();
+        Piece testPiece = new Piece (new PiecePosition(3,5));
+        Piece testPiece2 = new Piece (new PiecePosition(3,4));
+        try {
+            board.makeMove(testPiece, new PiecePosition(4,5));
+            Assert.assertEquals(3, board.getMoves(testPiece2).length);
+        } catch (MoveNotAllowedException e) {
+            e.printStackTrace();
+        }
     }
 
     /***
@@ -39,8 +60,11 @@ public class BasicBoardMovementTest {
     public void testMakeMovePos() throws MoveNotAllowedException {
         try {
             BasicBoardMovement testBoardMovement = createBasicBMovementUnderTest();
-            Piece piece = new Piece(new PiecePosition(0,3));
-            testBoardMovement.makeMove(piece, new PiecePosition(2,4));
+            Piece piece = new Piece(new PiecePosition(2,6));
+            piece.setId(1);
+            testBoardMovement.makeMove(piece, new PiecePosition(4,5));
+            Assert.assertArrayEquals(new int[]{-1,-1,-1,-1,-1,1,0,1,-1,-1,-1,-1,-1}, testBoardMovement.getBoard().getPositions()[2]);
+            Assert.assertArrayEquals(new int[]{6,6,6,6,0,1,0,0,0,2,2,2,2}, testBoardMovement.getBoard().getPositions()[4]);
 
         } catch (CorruptedFileException e) {
             e.printStackTrace();
@@ -72,15 +96,12 @@ public class BasicBoardMovementTest {
         try {
             BasicBoardMovement testBoardMovement = createBasicBMovementUnderTest();
             Piece piece = new Piece(new PiecePosition(0,3));
-            testBoardMovement.makeMove(piece, new PiecePosition(2,4));
-            //testBoardMovement.makeMoveByJump(piece, new PiecePosition(2,5));
+            testBoardMovement.makeMove(piece, new PiecePosition(2,3));
 
         } catch (CorruptedFileException e) {
             e.printStackTrace();
         }
-
     }
-
 
     protected BasicBoardMovement createBasicBMovementUnderTest() throws CorruptedFileException {
         BasicBoard board = createTestBoard();
@@ -95,7 +116,7 @@ public class BasicBoardMovementTest {
 
     protected BasicBoard createTestBoard() throws CorruptedFileException {
         BasicBoard testBoard = new BasicBoard();
-        testBoard.loadBoard(new File("testBoard.txt"));
+        testBoard.loadBoard(new File("basicBoard.txt"));
         return testBoard;
     }
 }

@@ -24,6 +24,40 @@ public class BasicBoardTest {
             Assert.assertArrayEquals(new int[]{-1,-1,-1,4,4, -1,-1,-1}, testBoard.getBoardFields()[7]);
     }
 
+    @Test
+    public void testImportingFromArray() throws CorruptedFileException {
+        String[][] inBoard = { {"n","n","1","n","n"},
+                {"n","1","1","1","n"},
+                {"2","2", "0", "3", "3"},
+                {"-1", "-1", "4", "-1", "-1"}};
+        BasicBoard testBoard= new BasicBoard();
+        testBoard.loadBoard(inBoard);
+        Assert.assertArrayEquals(new int[]{-1,-1,1,-1,-1}, testBoard.getBoardFields()[0]);
+        Assert.assertArrayEquals(new int[]{-1,1,1,1,-1}, testBoard.getBoardFields()[1]);
+        Assert.assertArrayEquals(new int[]{2,2,0,3,3}, testBoard.getBoardFields()[2]);
+        Assert.assertArrayEquals(new int[]{-1,-1,4,-1,-1}, testBoard.getBoardFields()[3]);
+    }
+
+    @Test(expected = CorruptedFileException.class)
+    public void testImportingFromArrayErr1() throws CorruptedFileException{
+        String[][] inBoard = { {"n","7","1","n","n"},
+                {"n","s","1","1","n"},
+                {"2","2", "0", "3", "3"},
+                {"-1", "-1", "4", "-1", "-1"}};
+        BasicBoard testBoard= new BasicBoard();
+        testBoard.loadBoard(inBoard);
+    }
+
+    @Test(expected = CorruptedFileException.class)
+    public void testImportingFromArrayErr2() throws CorruptedFileException{
+        String[][] inBoard = { {"n","n","1","n","n"},
+                {"n","s","1","1","n"},
+                {"2","2", "0", "3", "3"},
+                {"-1", "-1", "4", "-1", "-1"}};
+        BasicBoard testBoard= new BasicBoard();
+        testBoard.loadBoard(inBoard);
+    }
+
     /***
      * Tests if setting position works correctly
      */
@@ -47,7 +81,6 @@ public class BasicBoardTest {
             BasicBoard testBoard = createTestBoard();
             Assert.assertTrue(testBoard.fieldNotNull(0,4));
             Assert.assertTrue(!testBoard.fieldNotNull(0,0));
-
     }
 
     /***
