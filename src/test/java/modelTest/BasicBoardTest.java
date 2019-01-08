@@ -19,9 +19,9 @@ public class BasicBoardTest {
     @Test
     public void testFileImportingCorrectness() throws CorruptedFileException {
             BasicBoard testBoard=createTestBoard();
-            Assert.assertArrayEquals(new int[]{-1,-1,-1,1,1,-1,-1,-1}, testBoard.getBoardFields()[0]);
-            Assert.assertArrayEquals(new int[]{-1,-1,1,1,1,1,-1,-1}, testBoard.getBoardFields()[1]);
-            Assert.assertArrayEquals(new int[]{-1,-1,-1,4,4, -1,-1,-1}, testBoard.getBoardFields()[7]);
+            Assert.assertArrayEquals(new int[]{-1, -1, -1, -1, -1, -1, 1, -1, -1, -1, -1, -1, -1}, testBoard.getBoardFields()[0]);
+            Assert.assertArrayEquals(new int[]{-1, -1, -1, -1, -1, 1, 1, -1, -1, -1, -1, -1, -1}, testBoard.getBoardFields()[1]);
+            Assert.assertArrayEquals(new int[]{6, 6, 6, 6, 0, 0, 0, 0, 0, 2, 2, 2, 2}, testBoard.getBoardFields()[4]);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class BasicBoardTest {
     public void fieldNotNull() throws CorruptedFileException {
 
             BasicBoard testBoard = createTestBoard();
-            Assert.assertTrue(testBoard.fieldNotNull(0,4));
+            Assert.assertTrue(testBoard.fieldNotNull(0,6));
             Assert.assertTrue(!testBoard.fieldNotNull(0,0));
     }
 
@@ -90,7 +90,7 @@ public class BasicBoardTest {
      */
     protected BasicBoard createTestBoard() throws CorruptedFileException {
         BasicBoard testBoard = new BasicBoard();
-        testBoard.loadBoard(new File("testBoard.txt"));
+        testBoard.loadBoard(new File("basicBoard.txt"));
         return testBoard;
     }
 }
