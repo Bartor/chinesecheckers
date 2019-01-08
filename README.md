@@ -53,3 +53,7 @@ Frontend manages interactions with user and defines connection with a server. St
 Network in this project heavily relies on the message queues idea which makes it kind of possible to achieve some level of asynchronous processing of incoming data. Network activity diagram below illustrates it very good:
 
 ![UML of the network](docs-utils/network-uml.png)
+
+## Further documentation
+
+All classes are documented using javadoc compliant comments, you can generate yourself docs using your favourite javadoc tool.
