@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import frontend.controllers.AbstractController;
 import frontend.networking.Client;
 import frontend.networking.MessageInterpreter;
-import model.player.Piece;
 import model.player.PiecePosition;
 
 import java.io.IOException;
@@ -62,6 +61,12 @@ public class ControllerNetworkFacade {
         MessageInterpreter.getMessageQueue().add(jsonObject.toString());
     }
 
+    /***
+     * Start the connection to the server.
+     * @param addr Address of the server (host:port).
+     * @param nickname Nickname of the user connecting.
+     * @throws Exception If the connection could not be made, an exception is thrown.
+     */
     public static void connect(String addr, String nickname) throws Exception {
         if (addr.split(":").length == 0) throw new Exception("That's pretty empty");
         String host = addr.split(":")[0];

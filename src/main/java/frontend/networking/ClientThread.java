@@ -7,21 +7,35 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /***
  * Thread connecting to server. Receives info and passes it to the MessageInterpreter, which handles it.
  * Reads upcoming client-side data from MessagesInterpreter's messageQueue and sends it to server.
  */
 public class ClientThread extends Thread {
+    /***
+     * Socket representing the connection.
+     */
     private Socket socket;
+    /***
+     * Reader.
+     */
     private BufferedReader br;
+    /***
+     * Writer
+     */
     private PrintWriter pr;
 
+    /***
+     * Refresh time.
+     */
     private int refreshTime;
 
+    /***
+     * Creates a new client thread.
+     * @param socket Socket on which it shell be conneted.
+     * @param refreshTime Fetches data from the socket every refreshTime ms.
+     */
     public ClientThread(Socket socket, int refreshTime) {
         this.refreshTime = refreshTime;
         this.socket = socket;

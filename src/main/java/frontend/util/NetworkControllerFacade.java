@@ -9,7 +9,7 @@ import model.player.PiecePosition;
 import model.player.Player;
 
 /***
- * I have to use some patterns, so that's a pattern to make communication between network and controllers a bit simpler.
+ * An additional layer between network and ui.
  */
 public class NetworkControllerFacade {
     private AbstractController controller;
@@ -22,6 +22,10 @@ public class NetworkControllerFacade {
         this.controller = controller;
     }
 
+    /***
+     * Loads the map.
+     * @param map An array quite similar to that used in {@link model.board.BasicBoard#loadBoard(String[][])}.
+     */
     public void loadMap(String[][] map) {
         try {
             AbstractController.getGame().getBoardMovementInterface().getBoard().loadBoard(map);
@@ -125,6 +129,10 @@ public class NetworkControllerFacade {
         }
     }
 
+    /***
+     * Shows an alert.
+     * @param message Message show be the alert.
+     */
     public void alert(String message) {
         controller.showAlert(message);
     }

@@ -6,21 +6,11 @@ import frontend.util.ControllerNetworkFacade;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.FileChooser;
 import model.board.BasicBoard;
 import model.board.BasicBoardMovement;
-import model.board.BoardInterdace;
-import model.board.BoardMovementInterface;
-import model.exceptions.CannotAddPlayerException;
-import model.exceptions.CorruptedFileException;
-import model.exceptions.NoSuchPlayerException;
 import model.game.BasicGame;
 import model.player.Player;
-
-import java.io.File;
-import java.io.IOException;
 
 public class Start extends AbstractController {
     @FXML
@@ -33,7 +23,8 @@ public class Start extends AbstractController {
     JFXTextField adress;
 
     @Override
-    public void onSwitch() { }
+    public void onSwitch() {
+    }
 
     @FXML
     public void initialize() {
@@ -81,27 +72,5 @@ public class Start extends AbstractController {
                 }
             }
         });
-
-        /* we won't need it really... just program the server properly now
-        upload.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                FileChooser chooser = new FileChooser();
-                File openedFile = chooser.showOpenDialog(sceneController.getStage());
-                if (openedFile != null) {
-                    file = openedFile;
-                    BoardInterdace board = new BasicBoard();
-                    try {
-                        board.loadBoard(file);
-                    } catch (CorruptedFileException e) {
-                        file = null;
-                        showAlert(e.getMessage());
-                        return;
-                    }
-                    map.setText("Aktualnie używana mapa: " + file.getName());
-                    BoardMovementInterface movementInterface = new BasicBoardMovement(board);
-                    game = new BasicGame(movementInterface, 6);
-                }
-            }
-        });*/
     }
 }

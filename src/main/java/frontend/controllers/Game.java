@@ -1,7 +1,5 @@
 package frontend.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.sun.org.glassfish.gmbal.GmbalException;
 import frontend.networking.MessageInterpreter;
 import frontend.util.BoardField;
 import frontend.util.ControllerNetworkFacade;
@@ -14,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import model.board.BasicBoard;
 import model.exceptions.MoveNotAllowedException;
 import model.exceptions.NoSuchPieceException;
 import model.exceptions.NoSuchPlayerException;
@@ -23,15 +22,36 @@ import model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * Controls ui when playing the game.
+ */
 public class Game extends AbstractController {
+    /***
+     * Fields currently rendered on screen.
+     */
     private List<BoardField> fields = new ArrayList<>();
+    /***
+     * Current available moves to the player.
+     */
     private List<BoardField> availableMoves = new ArrayList<>();
+    /***
+     * A field which is being moved.
+     */
     private BoardField chosen;
+    /***
+     * State of current turn.
+     */
     private TurnState state;
 
+    /***
+     * Pieces render here.
+     */
     @FXML
     VBox boardBox;
 
+    /***
+     * Nickname of current player.
+     */
     @FXML
     Label player;
 
@@ -43,10 +63,9 @@ public class Game extends AbstractController {
         });
     }
 
-    @FXML
-    public void initialize() {
-    }
-
+    /***
+     * Renders the board filed using {@link BasicBoard#getPositions()}.
+     */
     public void renderFields() {
         Platform.runLater(() -> {
             System.out.println("RENDERING FIELDS...");
@@ -112,8 +131,7 @@ public class Game extends AbstractController {
                                         break;
                                 }
                             } catch (NoSuchPlayerException e) {
-                                //let's just ignore this tbh
-                                //showAlert(e.getMessage());
+                                //ignoring this on purpose
                             }
                         } else {
                             n = true;
@@ -130,6 +148,9 @@ public class Game extends AbstractController {
         });
     }
 
+    /***
+     * Enables and disables pieces according to current turn's state.
+     */
     public void nextTurn() {
         try {
             player.setText(game.getPlayerById(game.getTurn()).getName());
@@ -148,6 +169,11 @@ public class Game extends AbstractController {
         }
     }
 
+    /***
+     * Move the chosen piece to the chosen board field.
+     * @param origin Piece being moved.
+     * @param target Place it's being moved to.
+     */
     private void move(BoardField origin, BoardField target) {
         Platform.runLater(() -> {
             try {
@@ -157,16 +183,17 @@ public class Game extends AbstractController {
                 showAlert(e.getMessage());
                 return;
             }
-            //we just re-render fields
             renderFields();
         });
     }
 
+    /***
+     * Handles player choosing which piece to move and switches the state to {@link TurnState#PIECE_CHOSEN}.
+     * @param field Piece being moved.
+     */
     private void choose(BoardField field) {
         PiecePosition[] moves = game.getBoardMovementInterface().getMoves(field.getPiece());
-        //System.out.println("Printing possible moves:");
         for (PiecePosition move : moves) {
-            //System.out.println("Move: " + move);
             for (BoardField boardField : fields) {
                 if (boardField.getPosition().equals(move)) {
                     availableMoves.add(boardField);

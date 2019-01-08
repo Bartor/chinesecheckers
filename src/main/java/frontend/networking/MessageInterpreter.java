@@ -1,4 +1,5 @@
 package frontend.networking;
+
 import backend.GameSingleton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -17,9 +18,35 @@ import java.util.List;
  * when being send.
  */
 public class MessageInterpreter {
+    /***
+     * A message queue. Client sends things from here to the server. Can be modified externally.
+     */
     private static List<String> messageQueue = new ArrayList<>();
+    /***
+     * A facade between this interpreter and the ui controller.
+     */
     private static NetworkControllerFacade controllerFacade;
 
+    /***
+     * Interprets incoming messages from the server.
+     * Messages are a json array of objects. Each object has fields "type", "content" and "to".
+     * Type can be:
+     * <ul>
+     *     <li>load-map</li>
+     *     <li>new-client</li>
+     *     <li>ready</li>
+     *     <li>make-move</li>
+     *     <li>wrong-move</li>
+     *     <li>next-turn</li>
+     *     <li>no-changes</li>
+     *     <li>start-game</li>
+     *     <li>bad-request</li>
+     *     <li>won</li>
+     *     <li>end</li>
+     * </ul>
+     * which are pretty self-explanatory.
+     * @param m Analyzed json is a string.
+     */
     public static void interpret(String m) {
         JsonArray ar = new JsonParser().parse(m).getAsJsonArray();
         for (JsonElement el : ar) {
@@ -46,6 +73,7 @@ public class MessageInterpreter {
                     controllerFacade.loadMap(boardArray);
                     break;
                 }
+
                 case "new-client": {
                     String nick = new JsonParser().parse(message).getAsJsonObject().get("content").getAsJsonArray().get(0).getAsString();
                     int id = new JsonParser().parse(message).getAsJsonObject().get("content").getAsJsonArray().get(1).getAsInt();
@@ -53,13 +81,15 @@ public class MessageInterpreter {
                     controllerFacade.addPlayer(nick, id);
                     break;
                 }
+
                 case "ready": {
                     int id = new JsonParser().parse(message).getAsJsonObject().get("content").getAsInt();
 
                     controllerFacade.ready(id);
                     break;
                 }
-                case "make-move": //bad idea?
+
+                case "make-move":
                 case "wrong-move": {
                     if (type.equals("wrong-move")) {
                         controllerFacade.alert("Your move was illegal; rolling back");
@@ -78,25 +108,28 @@ public class MessageInterpreter {
                     controllerFacade.makeMove(rollbackOld, rollbackNew);
                     break;
                 }
+
                 case "next-turn": {
                     int id = new JsonParser().parse(message).getAsJsonObject().get("content").getAsInt();
 
                     controllerFacade.nextTurn(id);
                     break;
                 }
-                case "ok":
+
                 case "no-changes": {
-                    //well that's ok
                     break;
                 }
+
                 case "start-game": {
                     controllerFacade.startGame();
                     break;
                 }
+
                 case "bad-request": {
                     controllerFacade.alert("Bad Request");
                     break;
                 }
+
                 case "won": {
                     try {
                         String winner = GameSingleton.getGame().getPlayerById(new JsonParser().parse(message).getAsJsonObject().get("content").getAsInt()).getName();
@@ -106,10 +139,12 @@ public class MessageInterpreter {
                     }
                     break;
                 }
+
                 case "end": {
                     controllerFacade.alert("Game finished");
                     break;
                 }
+
                 default: {
                     System.out.println("Malformed server response: " + type);
                     break;
@@ -119,10 +154,18 @@ public class MessageInterpreter {
 
     }
 
+    /***
+     * Used to change the controller facade used by this class.
+     * @param controller A new controller.
+     */
     public static void spawnFacade(AbstractController controller) {
         MessageInterpreter.controllerFacade = new NetworkControllerFacade(controller);
     }
 
+    /***
+     * Let's others see the queue.
+     * @return Message queue.
+     */
     public static List<String> getMessageQueue() {
         return messageQueue;
     }

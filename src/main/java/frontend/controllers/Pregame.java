@@ -8,16 +8,23 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+/***
+ * Controls the lobby.
+ */
 public class Pregame extends AbstractController {
+    /***
+     * Players are listed here.
+     */
     @FXML
     private VBox playerList;
 
+    /***
+     * Button used to declare yourself ready.
+     */
     @FXML
     JFXButton readyButton;
 
@@ -26,6 +33,9 @@ public class Pregame extends AbstractController {
         MessageInterpreter.spawnFacade(this);
     }
 
+    /***
+     * We add some listeners to the ready button.
+     */
     @FXML
     public void initialize() {
         MessageInterpreter.spawnFacade(this);
@@ -37,15 +47,23 @@ public class Pregame extends AbstractController {
         });
     }
 
+    /***
+     * Adds a player to the ui.
+     * @param nick Nickname of the player.
+     * @param id Id of the player.
+     */
     public void addPlayer(String nick, int id) {
         Node playerBox = LobbyUser.create(nick, id, false);
 
         Platform.runLater(() -> {
             playerList.getChildren().add(playerBox);
         });
-        //System.out.println("PLAYER ADDED!");
     }
 
+    /***
+     * Readies a player in the ui.
+     * @param id Id of a player to be readied.
+     */
     public void readyPlayer(int id) {
         Platform.runLater(() -> {
             try {
@@ -58,6 +76,9 @@ public class Pregame extends AbstractController {
         });
     }
 
+    /***
+     * Switches to the game scene.
+     */
     public void startGame() {
         Platform.runLater(() -> {
             try {
