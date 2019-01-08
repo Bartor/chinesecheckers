@@ -1,15 +1,25 @@
 package model.board;
 
 import model.exceptions.MoveNotAllowedException;
-import model.player.PiecePosition;
 import model.player.Piece;
+import model.player.PiecePosition;
 
 import java.util.HashSet;
 
+/***
+ * Basic board movement.
+ */
 public class BasicBoardMovement implements BoardMovementInterface {
-    private BoardInterdace board;
+    /***
+     * Board on which we move.
+     */
+    private BoardInterface board;
 
-    public BasicBoardMovement(BoardInterdace board) {
+    /***
+     * Creates this class using given board.
+     * @param board Board to use.
+     */
+    public BasicBoardMovement(BoardInterface board) {
         this.board = board;
     }
 
@@ -166,7 +176,11 @@ public class BasicBoardMovement implements BoardMovementInterface {
         }
     }
 
-    public BoardInterdace getBoard() {
+    /***
+     * Gets the board.
+     * @return The board.
+     */
+    public BoardInterface getBoard() {
         return this.board;
     }
 }

@@ -1,8 +1,5 @@
 package model.player;
 
-import model.board.BoardInterdace;
-import model.exceptions.PlayerNotFullyInitializedException;
-
 public class Player {
     private String name;
     private Army army;

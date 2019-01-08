@@ -6,8 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class BasicBoard implements BoardInterdace {
-
+public class BasicBoard implements BoardInterface {
     /***
      * Model of a board.
      * Uses -1 for fields not available for players.
@@ -73,6 +72,11 @@ public class BasicBoard implements BoardInterdace {
         }
     }
 
+    /***
+     * Loads the board from an array.
+     * @param boardArray Array to be loaded from, similar to file in {@link BasicBoard#loadBoard(File)}.
+     * @throws CorruptedFileException If the array isn't a board array.
+     */
     public void loadBoard(String[][] boardArray) throws CorruptedFileException {
         boardFields = new int[boardArray.length][];
         positions = new int[boardArray.length][];
@@ -129,13 +133,17 @@ public class BasicBoard implements BoardInterdace {
      * @param col Column to check.
      * @return True, if isn't null. False if is.
      */
-    public boolean fieldNotNull(int row, int col){
-        int h=boardFields.length;
-        int j=boardFields[0].length;
-        return (j>col && h>row && row>=0 && col>=0 && boardFields[row][col] != -1);
+    public boolean fieldNotNull(int row, int col) {
+        int h = boardFields.length;
+        int j = boardFields[0].length;
+        return (j > col && h > row && row >= 0 && col >= 0 && boardFields[row][col] != -1);
     }
 
-    public int[][] getBoardFields(){
+    /***
+     * Gets board fields.
+     * @return Board fields array.
+     */
+    public int[][] getBoardFields() {
         return this.boardFields;
     }
 }

@@ -10,7 +10,15 @@ import model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * Basic game class.
+ */
 public class BasicGame extends AbstractGame {
+    /***
+     * Create it with basic movement and number of players.
+     * @param boardMovementInterface
+     * @param playersLimit
+     */
     public BasicGame(@NotNull BoardMovementInterface boardMovementInterface, int playersLimit) {
         this.boardMovementInterface = boardMovementInterface;
         this.limit = playersLimit;

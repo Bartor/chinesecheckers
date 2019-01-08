@@ -1,7 +1,11 @@
 package model.exceptions;
 
-public class NoSuchPlayerException extends Exception{
+/***
+ * Thrown when trying to fetch a piece which doesn't exist in a game.
+ */
+public class NoSuchPlayerException extends Exception {
     private String message;
+
     public NoSuchPlayerException(String message) {
         this.message = message;
     }

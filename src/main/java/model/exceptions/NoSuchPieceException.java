@@ -1,5 +1,8 @@
 package model.exceptions;
 
+/***
+ * Thrown when trying to fetch a piece that doesn't exists in a game.
+ */
 public class NoSuchPieceException extends Exception {
     private String message;
 
