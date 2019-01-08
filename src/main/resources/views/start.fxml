@@ -11,19 +11,40 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.Start">
     <children>
-        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="150.0">
-            <Label alignment="CENTER" text="Chinese Checkers" textAlignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="150.0" style="-fx-background-color: #333;">
+            <Label alignment="CENTER" text="chinesecheckers" textAlignment="CENTER" textFill="#dddddd">
                 <font>
-                    <Font size="24.0" />
+                    <Font name="Consolas" size="24.0" />
                 </font>
             </Label>
             <VBox alignment="CENTER" prefHeight="65.0" prefWidth="397.0">
                 <children>
-                    <JFXTextField fx:id="nick" maxWidth="300.0" prefHeight="25.0" promptText="Pseudonim" />
-                    <JFXTextField fx:id="adress" maxWidth="300.0" prefHeight="25.0" promptText="Adres gry" />
+                    <JFXTextField fx:id="nick" maxWidth="300.0" prefHeight="25.0" promptText="nickname" style="-fx-text-fill: #dddddd;" unFocusColor="#dddddd">
+                  <font>
+                     <Font name="Consolas" size="12.0" />
+                  </font>
+                  <VBox.margin>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </VBox.margin></JFXTextField>
+                    <JFXTextField fx:id="adress" maxWidth="300.0" prefHeight="25.0" promptText="host" style="-fx-text-fill: #dddddd;" unFocusColor="#dddddd">
+                  <font>
+                     <Font name="Consolas" size="12.0" />
+                  </font>
+                  <opaqueInsets>
+                     <Insets />
+                  </opaqueInsets>
+                  <VBox.margin>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </VBox.margin></JFXTextField>
                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="436.0">
                         <children>
-                            <JFXButton fx:id="start" disable="true" mnemonicParsing="false" text="Uruchom" />
+                            <JFXButton fx:id="start" disable="true" mnemonicParsing="false" prefWidth="300.0" ripplerFill="#4059a9" text="connect" textAlignment="CENTER" textFill="#dddddd">
+                        <HBox.margin>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </HBox.margin>
+                        <font>
+                           <Font name="Consolas" size="12.0" />
+                        </font></JFXButton>
                         </children>
                     </HBox>
                 </children>

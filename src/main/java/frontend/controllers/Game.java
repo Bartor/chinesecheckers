@@ -56,7 +56,7 @@ public class Game extends AbstractController {
                 HBox hbox = new HBox();
                 hbox.setAlignment(Pos.CENTER);
                 for (int j = 0; j < boardFields[i].length; j++) {
-                    final BoardField button = new BoardField("white");
+                    final BoardField button = new BoardField("#343434");
                     button.setOnAction(new EventHandler<ActionEvent>() {
                         public void handle(ActionEvent event) {
                             System.out.println("handled");
@@ -93,22 +93,22 @@ public class Game extends AbstractController {
                                 }
                                 switch (boardFields[i][j]) {
                                     case 1:
-                                        button.setStyle("-fx-color: blue");
+                                        button.setStyle("-fx-color: #182257");
                                         break;
                                     case 2:
-                                        button.setStyle("-fx-color: yellow");
+                                        button.setStyle("-fx-color: #D4CB6A");
                                         break;
                                     case 3:
-                                        button.setStyle("-fx-color: red");
+                                        button.setStyle("-fx-color: #801515");
                                         break;
                                     case 4:
-                                        button.setStyle("-fx-color: green");
+                                        button.setStyle("-fx-color: #3E7213");
                                         break;
                                     case 5:
-                                        button.setStyle("-fx-color: purple");
+                                        button.setStyle("-fx-color: #341456");
                                         break;
                                     case 6:
-                                        button.setStyle("-fx-color: orange");
+                                        button.setStyle("-fx-color: #805215");
                                         break;
                                 }
                             } catch (NoSuchPlayerException e) {

@@ -10,20 +10,26 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.Game">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #333;">
          <children>
             <VBox alignment="CENTER" prefHeight="400.0" prefWidth="150.0">
                <children>
-                  <Label text="Chinese Checkers" />
+                  <Label text="chinesecheckers" textAlignment="CENTER" textFill="#dddddd">
+                     <font>
+                        <Font name="Consolas" size="12.0" />
+                     </font></Label>
                   <Separator prefWidth="200.0">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </Separator>
-                  <Label text="aktualna tura" />
-                  <Label fx:id="player" text="brak">
+                  <Label text="turn" textAlignment="CENTER" textFill="#dddddd">
                      <font>
-                        <Font size="18.0" />
+                        <Font name="Consolas" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="player" text="noone" textFill="#dddddd">
+                     <font>
+                        <Font name="Consolas" size="18.0" />
                      </font>
                   </Label>
                </children>
