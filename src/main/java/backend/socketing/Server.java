@@ -15,12 +15,22 @@ import java.util.List;
  * Holds clients.
  */
 public class Server {
+    /***
+     * Port we connect at.
+     */
     private int port;
 
+    /***
+     * Creates a new server on given port.
+     * @param port Port to create the server at.
+     */
     public Server (int port) {
         this.port = port;
     }
 
+    /***
+     * Start a server, each client is an instance of {@link ServerClient} in separate thread.
+     */
     public void start() {
         Socket socket;
         ServerSocket server;

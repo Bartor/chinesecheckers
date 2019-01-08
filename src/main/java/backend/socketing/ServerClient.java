@@ -5,7 +5,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +17,36 @@ import java.util.List;
  * A thread for a single client.
  */
 public class ServerClient extends Thread {
+    /***
+     * Socket we use to communicate.
+     */
     private Socket socket;
+    /***
+     * Id of client connected on this socket.
+     */
     private int id;
 
+    /***
+     * Sent messages.
+     */
     private List<String> sent = new ArrayList<>();
+    /***
+     * Messages waiting to be sent.
+     */
     private List<String> toSend = new ArrayList<>();
 
+    /***
+     * Create a new client with given socket.
+     * @param socket Socket to use.
+     */
     public ServerClient(Socket socket, int id) {
         this.socket = socket;
+        this.id = id;
     }
 
+    /***
+     * Waits for a clients request, sends back information from {@link MessageQueueSingleton}.
+     */
     @Override
     public void run() {
         System.out.println("Client connected");

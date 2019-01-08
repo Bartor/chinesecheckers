@@ -2,12 +2,9 @@ package backend.interpreter;
 
 import backend.GameSingleton;
 import backend.socketing.MessageQueueSingleton;
-import backend.socketing.Server;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import frontend.controllers.Game;
 import model.exceptions.CannotAddPlayerException;
 import model.exceptions.MoveNotAllowedException;
 import model.exceptions.NoSuchPieceException;
@@ -16,12 +13,14 @@ import model.player.Piece;
 import model.player.PiecePosition;
 import model.player.Player;
 
-import java.util.ArrayList;
-import java.util.List;
 /***
  * Modifies state of game in the GameSingleton and adds proper messages to message Queue.
  */
 public class MessageInterpreter {
+    /***
+     * Takes a message and interprets it.
+     * @param message Message to be interpreted.
+     */
     public static void interpret(String message) {
         String type = new JsonParser().parse(message).getAsJsonObject().get("type").getAsString();
 
@@ -100,8 +99,8 @@ public class MessageInterpreter {
                 //done? i think so...
                 //CHECKING IF SOMEONE WON AFTER THIS MOVE and adding a msg to queue about it
 
-                for(Player player : GameSingleton.getGame().getPlayers() ){
-                    if(GameSingleton.getGame().hasWon(player) && !GameSingleton.getWinners().contains(player)){
+                for (Player player : GameSingleton.getGame().getPlayers()) {
+                    if (GameSingleton.getGame().hasWon(player) && !GameSingleton.getWinners().contains(player)) {
                         JsonObject jsonObject = new JsonObject();
                         jsonObject.addProperty("type", "won");
                         jsonObject.addProperty("content", from);
@@ -115,19 +114,19 @@ public class MessageInterpreter {
                     }
                 }
 
-                if(GameSingleton.getWinners().size()==GameSingleton.getGame().getLimit()-1){
+                if (GameSingleton.getWinners().size() == GameSingleton.getGame().getLimit() - 1) {
                     JsonObject jsonObject = new JsonObject();
-                    jsonObject.addProperty("type","end");
-                    jsonObject.addProperty("content","");
+                    jsonObject.addProperty("type", "end");
+                    jsonObject.addProperty("content", "");
                     jsonObject.addProperty("to", "all");
                     MessageQueueSingleton.getMessages().add(jsonObject.toString());
                 }
 
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("type", "next-turn");
-                switch(GameSingleton.getGame().getLimit()){
-                    case 2:{
-                        switch (from){
+                switch (GameSingleton.getGame().getLimit()) {
+                    case 2: {
+                        switch (from) {
                             case 1: {
                                 jsonObject.addProperty("content", 4);
                                 GameSingleton.getGame().setTurn(4);
@@ -141,14 +140,14 @@ public class MessageInterpreter {
                         }
                         break;
                     }
-                    case 4:{
-                        switch (from){
-                            case 1:{
+                    case 4: {
+                        switch (from) {
+                            case 1: {
                                 jsonObject.addProperty("content", 2);
                                 GameSingleton.getGame().setTurn(2);
                                 break;
                             }
-                            case 2:{
+                            case 2: {
                                 jsonObject.addProperty("content", 4);
                                 GameSingleton.getGame().setTurn(4);
                                 break;
@@ -167,7 +166,7 @@ public class MessageInterpreter {
                         break;
                     }
                     case 6: {
-                        jsonObject.addProperty("content", from%6+1);
+                        jsonObject.addProperty("content", from % 6 + 1);
                         break;
                     }
                 }
@@ -178,7 +177,7 @@ public class MessageInterpreter {
                 //we have to skip players that won
                 int turn = GameSingleton.getGame().getTurn();
                 try {
-                    if(GameSingleton.getWinners().contains(GameSingleton.getGame().getPlayerById(turn))) {
+                    if (GameSingleton.getWinners().contains(GameSingleton.getGame().getPlayerById(turn))) {
                         //probably correct
                         while (GameSingleton.getWinners().contains(GameSingleton.getGame().getPlayerById(turn)) ||
                                 !GameSingleton.getGame().getPlayers().contains(GameSingleton.getGame().getPlayerById(turn))) {

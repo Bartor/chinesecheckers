@@ -1,6 +1,5 @@
 package backend;
 
-import backend.interpreter.MessageInterpreter;
 import backend.socketing.MessageQueueSingleton;
 import backend.socketing.Server;
 import com.google.gson.JsonArray;
@@ -59,7 +58,6 @@ public class Main {
 
         Server server = new Server(port);
 
-        //initializing static classes
         new GameSingleton(new BasicBoardMovement(basicBoard), limit);
 
         server.start();
